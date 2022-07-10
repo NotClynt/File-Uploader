@@ -12,7 +12,7 @@ try {
 
 $ip = $_SERVER['REMOTE_ADDR'];
 if (isset($_POST["sharex"])) {
-     if ($_POST["harex"] == "true") {
+     if ($_POST["sharex"] == "true") {
           $key = $_POST['key'];
      } else {
           $key = $_GET['key'];

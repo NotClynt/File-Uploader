@@ -1,0 +1,23 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/|#(.*))$
+RewriteRule ^(.*)$ $1/ [L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\.]+)/$ $1.php
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NE,L,R]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)/?$ /$1.html  [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(f)/?$ index.php?f=$1
+RewriteRule ^([^/]+)/?$ index.php?f=$1
+RewriteRule ^invite/([A-Za-z0-9-]+)/?$ index.php?invite=$1 [NC]
+RewriteRule ^profile/([A-Za-z0-9-]+)/?$ dashboard/user?profile=$1 [NC]
+RewriteRule ^paste/([A-Za-z0-9-]+)/?$ dashboard/paste?paste-id=$1 [NC]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_URI} "^/api/upload"
+RewriteRule (.*) api/upload.php [L]

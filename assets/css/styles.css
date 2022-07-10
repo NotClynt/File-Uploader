@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&amp;display=swap");
+html {
+  overflow: hidden;
+}
+
+body {
+  background: linear-gradient(to bottom left, #0a015c, #032672) fixed;
+  font-family: "Lato", sans-serif;
+}
+
+#cover-i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 100;
+  visibility: hidden;
+}
+
+.image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.darkmode {
+  transition: 1s;
+  background: linear-gradient(to bottom left, #000000, #0c0c0cfa) fixed;
+}
+
+#links {
+  position: relative;
+  color: white;
+  text-align: center;
+  font-size: 4vh;
+}
+#links a {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+#links a:hover {
+  text-decoration: underline;
+}
+
+#logo {
+  width: 200px;
+  height: 200px;
+}
+
+#logo:hover {
+  animation: spin ease 1.7s forwards;
+}
+
+@media screen and (max-width: 1027px) {
+  #links {
+    font-size: 3vh;
+  }
+
+  #logo {
+    width: 150px;
+    height: 150px;
+  }
+}
+@media screen and (max-width: 647px) {
+  #links {
+    font-size: 1.5vh;
+  }
+
+  #logo {
+    width: 100px;
+    height: 100px;
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(-25deg);
+  }
+  50% {
+    transform: rotate(380deg);
+  }
+  65% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+canvas { width: 100vw; height: 100vh; display: block; }
+
+/*# sourceMappingURL=styles.css.map */
