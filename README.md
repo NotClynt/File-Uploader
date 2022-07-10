@@ -8,7 +8,7 @@ A Image host like upload.systems and the other gay uploader. Have fun skidding g
 
 #### Can i skid this?
 
-Yes you can skid this my kid ;)
+Yes AsylantenCeo#3859, you can skid this :)
 
 #### How simple is it to setup?
 
