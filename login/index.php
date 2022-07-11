@@ -1,25 +1,29 @@
-<?php require "../src/config.php"; ?>
+<?php 
+
+include "../src/require.php";
+
+?>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
 
-    <title><?php SERVICE_NAME; ?> | login</title>
+    <title><?php SERVICE_NAME ?> | login</title>
 
-    <link href="https://<?php CDN_URL; ?>/assets/img/icon.png" rel="shortcut icon" />
-    <link href="https://<?php CDN_URL; ?>/assets/css/login.css" rel="stylesheet" type="text/css" />
+    <link href="https://<?php CDN_URL ?>/assets/images/icon.png" rel="shortcut icon" />
+    <link href="https://<?php CDN_URL ?>/assets/css/login.css" rel="stylesheet" type="text/css" />
 
-    <meta name="keywords" content="<?php KEYWORDS; ?>">
+    <meta name="keywords" content="<?php KEYWORDS ?>">
+    <meta name="author" content="the sexy">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?php DESCRIPTION; ?>">
+    <meta name="description" content="<?php DESCRIPTION ?>">
 
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&amp;display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&amp;display=swap" rel="stylesheet">
 
-    <script src="https://<?php CDN_URL; ?>/assets/js/axios.min.js" type="62ed7cfc56cbe71c210c285b-text/javascript"></script>
 
     <style>
         body {
@@ -27,7 +31,7 @@
         }
     </style>
 
-    <img class="logo" src="https://<?php CDN_URL; ?>/assets/img/icon.png">
+    <img class="logo" src="https://<?php CDN_URL ?>/assets/images/icon.png">
 </head>
 
 <body>
@@ -42,18 +46,18 @@
             <h3 id="errormsg"></h3>
         </div>
     </form>
-    <script src="https://<?php CDN_URL; ?>/assets/js/login.js" type="62ed7cfc56cbe71c210c285b-text/javascript"></script>
     <script type="62ed7cfc56cbe71c210c285b-text/javascript">
         var element = document.body;
-        if (localStorage.getItem("darkmodeprefsenabled") == null) {
-            localStorage.setItem("darkmodeprefsenabled", false);
-        }
+        if (localStorage.getItem("darkmodeprefsenabled") == null) {localStorage.setItem("darkmodeprefsenabled", false);}
         if (localStorage.getItem("darkmodeprefsenabled") == "true") {
             element.classList.toggle("darkmode");
         }
     </script>
+    <div class="copyright" style="text-align: center; color: white;">
+        <p><i><?php SERVICE_NAME ?></i></p>
     </div>
-    <script src="https://<?php CDN_URL; ?>/assets/js/rocket-loader.min.js" data-cf-settings="62ed7cfc56cbe71c210c285b-|49" defer=""></script>
+    </div>
+    <script src="https://<?php CDN_URL ?>/assets/js/loader.js" data-cf-settings="62ed7cfc56cbe71c210c285b-|49" defer=""></script>
 </body>
 
 </html>
