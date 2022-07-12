@@ -78,6 +78,22 @@ Some features (not all)
 | :-------- | :------- | :-------------------------------- |
 | `length`      | `int` | **Required**. Length of the string |
 
+```http
+  GET /api/domains/list
+```
+
+|  Description                       |
+|  :-------------------------------- |
+| List every domain available to use |
+
+```http
+  GET /api/stats
+```
+
+|  Description                       |
+|  :-------------------------------- |
+| Display stats |
+
 
 
 ## Support
