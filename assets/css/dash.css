@@ -1,0 +1,20 @@
+body {
+     background: linear-gradient(to bottom left, #2705eb, #052681) fixed;
+ }
+ 
+ .bg-blur {
+     background: transparent !important;
+     backdrop-filter: brightness(45%) blur(50px) !important;
+ }
+ 
+ .blurredtext {
+     color: transparent;
+     text-shadow: 0 0 20px rgba(255,255,255);
+     transition: 0.3s;
+ }
+ 
+ .blurredtext:hover {
+     color: white;
+     text-shadow: none;
+     transition: 0.4s;
+ }

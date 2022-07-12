@@ -1,5 +1,5 @@
 body{
-    background: linear-gradient(to bottom left, #2705eb, #03073d) fixed;
+    background: linear-gradient(to bottom left, #2705eb, #052681) fixed;
     color: white;
 }
 .box{
@@ -46,7 +46,7 @@ body{
     display: block;
     margin: 20px auto;
     text-align: center;
-    border: 2px solid #03073d;
+    border: 2px solid #052681;
     padding: 14px 40px;
     outline: none;
     color: white;
@@ -55,7 +55,7 @@ body{
     cursor: pointer;
 }
 .submit:hover{
-    background: linear-gradient(to bottom left, #2705eb, #03073d) fixed;
+    background: linear-gradient(to bottom left, #2705eb, #052681) fixed;
     transition: .5s;
 }
 
