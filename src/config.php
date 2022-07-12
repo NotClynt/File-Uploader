@@ -2,31 +2,28 @@
 
 // UPLOADER
 define('DIRECTORY', "");
-define('PASSWORD', "AsylantenCeo#1337_Is_a_skid");
-define('DOMAIN', "c-cloud.rocks");
+define('DOMAIN', "V_DOMAIN");
 define('SHOW_IP', "false");
 
 
 // EMBED
 define('EMBED', true, true);
-define('EMBED_TITLE', "c-cloud.rocks", true);
-define('EMBED_DESCRIPTION', "This image was uploaded to c-cloud.rocks", true);
-define('EMBED_COLOUR', "#0303fc", true);
+define('EMBED_TITLE', "V_SERVICE_NAME", true);
+define('EMBED_DESCRIPTION', "https://github.com/clynt707/File-Uploader", true);
+define('EMBED_COLOUR', "V_EMBED_COLOR", true);
 
 // URLs
-define('BASE_DOMAIN', "c-cloud.rocks");
-define('CDN_URL', "c-cloud.rocks");
-define('DISCORD_INVITE', "https://discord.gg/XWQWQWQ");
+define('BASE_DOMAIN', "V_DBASE_DOMAIN");
+define('CDN_URL', "V_CDN_URL");
+define('DISCORD_INVITE', "V_DISCORD_INVITE");
 
 
 // SEO
-define('EMBED_COLOR', "#0303fc");
-define('DESCRIPTION', "This is a private image host with many features");
-define('KEYWORDS', "image host, host, images, uploader, pays.host, tesla.sexy, ventry.host");
+define('EMBED_COLOR', "V_EMBED_COLOR");
+define('DESCRIPTION', "V_DESCRIPTION");
+define('KEYWORDS', "V_KEYWORDS");
 
 
 // WEBSITE
-define('SERVICE_NAME', "C-Cloud");
-define('SERVICE_DESCRIPTION', "This is a private image host with many features");
-define('INFO_TITLE', "Upload and share your favourite experiences");
-define('INFO_DESCRIPTION', "Easily take a picture and upload it to C-Cloud, share it using publicly accessible links, while securely storing it within C-Cloud");
+define('SERVICE_NAME', "V_SERVICE_NAME");
+define('SERVICE_DESCRIPTION', "V_SERVICE_DESCRIPTION");
