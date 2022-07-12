@@ -150,13 +150,13 @@ if (isset($_GET["f"])) {
                     <link rel="stylesheet" href="hhttps://<?php CDN_URL ?>/assets/css/cdn.css">
                     <meta charset="UTF-8">
                     <style>
-                         .sexyname {
+                         .logoname {
                               color: white;
                               text-decoration: none;
                               transition: 1s;
                          }
 
-                         .sexyname:hover {
+                         .logoname:hover {
                               text-shadow: 1px 1px 5px #E9897E;
                               transition: 1s;
                          }
@@ -287,27 +287,38 @@ if (isset($_GET["f"])) {
                     echo "  <div class='card' <div class='card-body'><h3 class='card-text' style='color: red;'>This upload self destructs if you leave this site</h3></div><br>";
                }
                if ($banned == "true") {
-                    echo '
-                    <div id="watermark">
-                    <p1><img class="logo" src="https://tesla.sexy/tesla/icon.png"> <a href="https://' . BASE_DOMAIN . '/" class="sexyname">' . SERVICE_NAME . '</a></p1>
+                    echo "
+                    <div id='watermark'>
+                    <p1><img class='logo' src='https://" . CDN_URL . "/assets/images/icon.png'> <a href='https://" . BASE_DOMAIN . "/' class='logoname'>" . SERVICE_NAME . "</a></p1>
                </div>
-               <div class="main">
-                    <div class="upload">
-                         <a href="https://' . BASE_DOMAIN . '/"><img class="image" src="https://' . CDN_URL . '/assets/images/banned.png"></a><br>
-                         <p1 class="uploadedby" style="color: white;">uploaded by: </p1>
+               <div class='main'>
+                    <div class='upload'>
+                         <a href='https://" . BASE_DOMAIN . "/'><img class='image' src='https://" . CDN_URL . "/assets/images/banned.png'></a><br>
+                         <p1 class='uploadedby' style='color: white;'>Uploaded by: $username at $uploaded_at </p1>
                     </div>
-               </div>';
+               </div>";
                } else if ($banned == "false") {
-                    echo '
-               <div id="watermark">
-                    <p1><img class="logo" src="https://tesla.sexy/tesla/icon.png"> <a href="' . BASE_DOMAIN . '/" class="sexyname">' . SERVICE_NAME . '</a></p1>
+                    echo "
+               <div id='watermark'>
+                    <p1><img class='logo' src='https://" . CDN_URL . "/assets/images/icon.png'> <a href='" . BASE_DOMAIN . "/' class='logoname'>" . SERVICE_NAME . "</a></p1>
                </div>
-               <div class="main">
-                    <div class="upload">
-                         <a href="<?php echo "/uploads/$useridentification/$username/" . $filename; ?>"><img class="image" src="<?php echo "/uploads/$useridentification/$username/" . $filename; ?>"></a><br>
-                         <p1 class="uploadedby" style="color: white;">uploaded by: </p1>
+               <div class='main'>
+                    <div class='upload'>
+                         <a href='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'><img class='image' src='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'></a><br>
+                         <p1 class='uploadedby' style='color: white;'>Uploaded by: $username at $uploaded_at</p1>
                     </div>
-               </div>';
+               </div>";
+               } else if ($upload_logo_toggle == "true") {
+                    echo "
+                    <div id='watermark'>
+                    <p1><img class='logo' src='$upload_logo'> <a href='" . BASE_DOMAIN . "/' class='logoname'>" . SERVICE_NAME . "</a></p1>
+               </div>
+               <div class='main'>
+                    <div class='upload'>
+                         <a href='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'><img class='image' src='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'></a><br>
+                         <p1 class='uploadedby' style='color: white;'>Uploaded by: $username at $uploaded_at</p1>
+                    </div>
+               </div>";
                }
                ?>
                </body>
@@ -325,8 +336,7 @@ if (isset($_GET["f"])) {
             <meta property='og:title' content='C-Cloud File Uploader' />
             <meta property='og:url' content='https://" . BASE_DOMAIN . "/' />
             <meta property='og:type' content='website' />
-            <meta property='og:description' content='A Free File Uploader for all of your Files.' />
-            <meta property='og:locale' content='en_GB' />
+            <meta property='og:description' content='" . DESCRIPTION . "' />
             <meta content='https://" . CDN_URL . "/images/invite.png' property='og:image'>";
           }
           ?>
