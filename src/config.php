@@ -15,7 +15,7 @@ define('EMBED_COLOUR', "#0303fc", true);
 
 // URLs
 define('BASE_DOMAIN', "c-cloud.rocks");
-define('CDN_URL', "cdn.c-cloud.rocks");
+define('CDN_URL', "c-cloud.rocks");
 define('DISCORD_INVITE', "https://discord.gg/XWQWQWQ");
 
 

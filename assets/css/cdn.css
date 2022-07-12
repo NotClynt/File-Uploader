@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+html {
+     overflow: hidden;
+}
+
+body {
+     background: linear-gradient(to bottom left, #2705eb, #03073d) fixed;
+     font-family: 'Lato', sans-serif;
+}
+
+#watermark {
+     position: absolute;
+     top: 5px;
+     left: 10px;
+     width: auto;
+     height: auto;
+     font-size: 2em;
+     vertical-align: middle;
+
+     a {
+          color: white;
+          text-decoration: none;
+     }
+}
+
+.logo {
+     vertical-align: middle;
+     width: 2.5em;
+     height: 2.5em;
+}
+
+.main {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     text-align: center;
+}
+
+.image {
+     max-width: 100vh;
+     max-height: 80vh;
+     padding-bottom: 10px;
+}
+
+.uploadedby {
+     color: white;
+     font-size: 20px;
+}
+}
+
+@media screen and (max-width: 570px) {
+     .main {
+          .uploadedby {
+               font-size: 15px;
+          }
+     }
+}
+
+@media screen and (max-width: 400px) {
+     .main {
+          .uploadedby {
+               font-size: 10px;
+          }
+     }
+}
