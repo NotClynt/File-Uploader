@@ -19,6 +19,10 @@ if(isset($_POST['urls'])) {
      $config = str_replace("%discord_invite%", $discord_invite, $config);
      file_put_contents("../src/config.php", $config);
 
+     $dbb = file_get_contents("../src/database.php");
+     $dbb = str_replace("%domain%", $domain, $dbb);
+     file_put_contents("../src/database.php", $dbb);
+
 
      header("Location: step2.php");
 

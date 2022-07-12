@@ -18,6 +18,14 @@ if(isset($_POST['seo'])) {
      $config = str_replace("%keywords%", $keywords, $config);
      file_put_contents("../src/config.php", $config);
 
+     $dbb = file_get_contents("../src/database.php");
+     $dbb = str_replace("%embed_color%", $embedcolor, $dbb);
+     file_put_contents("../src/database.php", $dbb);
+
+     $regg = file_get_contents("../register/index.php");
+     $regg = str_replace("%embed_color%", $embedcolor, $regg);
+     file_put_contents("../register/index.php", $regg);
+
 
      header("Location: step3.php");
 

@@ -17,6 +17,10 @@ if(isset($_POST['web'])) {
      $config = str_replace("%service_description%", $service_description, $config);
      file_put_contents("../src/config.php", $config);
 
+     $reggister = file_get_contents("../register/index.php");
+     $reggister = str_replace("%service_name%", $service_name, $reggister);
+     file_put_contents("../register/index.php", $reggister);
+
      header("Location: step4.php");
 
 }
