@@ -97,6 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql = "INSERT INTO users (uuid, username, password, banned, invite, secret, embedcolor, embedauthor, embedtitle, embeddesc, reg_date, use_embed, use_customdomain, self_destruct_upload, filename_type, url_type, uploads, upload_domain, discord_username, discord_id, inviter, last_uploaded, upload_limit, upload_size_limit, upload_logo, upload_logo_toggle) VALUES ('$uuid', ?, ?, 'false', '$provided', '$ranPass', '%embed_color%', '%service_name%', '%filename (%filesize)', 'Uploaded by %username at %date', '$date', 'true', 'false', 'false', 'false', 'short', 'short', 0, '%domain%', 'user#0000', '000000000000000000', '$inviter', 'Could not find Date', '500 MB', '32 MB', 'https://%domain%/assets/images/icon.png', 'false',)";
 
+        if (!file_exists('uploads/' . $uuid)) {
+            mkdir('uploads/' . $uuid, 0777, true);
+        }
+        
         mysqli_query($db, $updateCode);
         if ($stmt = $db->prepare($sql)) {
             $stmt->bind_param("ss", $param_username, $param_password);
