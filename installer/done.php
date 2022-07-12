@@ -32,7 +32,7 @@
           <h2>Success</h2>
           
           <p>
-               Successfully installed. Please delete the install folder.
+               Successfully installed. <br>Please delete the install folder.<br> Use the following invite to refister : ez68Ur8tt2-6iR3XE4sDG-oaA7Y62Lqe-UcnpD8BxuR
           </p>
 
      </form>

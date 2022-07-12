@@ -34,6 +34,8 @@ if (isset($_POST['db'])) {
           $db->multi_query($sql);
           $db->close();
 
+          unlink("../src/database.sql");
+
           header("Location: done.php");
      }
 

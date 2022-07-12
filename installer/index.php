@@ -23,6 +23,10 @@ if(isset($_POST['urls'])) {
      $dbb = str_replace("%domain%", $domain, $dbb);
      file_put_contents("../src/database.php", $dbb);
 
+     $regg = file_get_contents("../register/index.php");
+     $regg = str_replace("%domain%", $domain, $regg);
+     file_put_contents("../register/index.php", $regg);
+
 
      header("Location: step2.php");
 

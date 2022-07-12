@@ -126,3 +126,7 @@ ALTER TABLE `uploads`
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 COMMIT;
+
+
+INSERT INTO `invites` (`id`, `inviteCode`, `inviteAuthor`) VALUES
+(1, 'ez68Ur8tt2-6iR3XE4sDG-oaA7Y62Lqe-UcnpD8BxuR', 'Setup invite');
