@@ -2,7 +2,22 @@
 
 include "../src/config.php";
 include "../src/database.php";
-include "../src/functions.php";
+
+function generateRandomInt($length)
+{
+    $characters = '0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+function uuid()
+{
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0x0fff) | 0x4000, mt_rand(0, 0x3fff) | 0x8000, mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff));
+}
 
 $ranPass = generateRandomInt(16);
 $uuid = uuid();
@@ -24,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $sql = "SELECT id FROM users WHERE username = ?";
 
-        if ($stmt = $db->prepare($sql)) {
+        if ($stmt = $mysqli->prepare($sql)) {
             $stmt->bind_param("s", $param_username);
 
             $param_username = trim($_POST["username"]);
@@ -72,13 +87,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $checkCode = "SELECT * FROM invites WHERE inviteCode ='{$provided}'";
         $updateCode = "DELETE FROM invites WHERE inviteCode = '{$provided}'";
 
-        $fetchGetCode = mysqli_query($db, $getCode);
-        $run_fetchGetCode = mysqli_fetch_all($fetchGetCode, MYSQLI_ASSOC);
-        $fetchCheckCode = mysqli_query($db, $checkCode);
-        $run_fetchCheckCode = mysqli_fetch_array($fetchCheckCode);
+        $fetchGetCode = $db->query($getCode);
+        $run_fetchGetCode = $fetchGetCode->fetch_assoc();
+        $fetchCheckCode = $db->query($checkCode);
+        $run_fetchCheckCode = $fetchCheckCode->fetch_assoc();
 
         $keyQuery = "SELECT * FROM `invites` WHERE `inviteCode`='$provided';";
-        $keyResult = mysqli_query($db, $keyQuery);
+        $keyResult = mysqli_query($mysqli, $keyQuery);
         $keyRow = mysqli_fetch_array($keyResult);
         $inviter = $keyRow['inviteCode'];
 
@@ -100,9 +115,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!file_exists('uploads/' . $uuid)) {
             mkdir('uploads/' . $uuid, 0777, true);
         }
-        
-        mysqli_query($db, $updateCode);
-        if ($stmt = $db->prepare($sql)) {
+
+        mysqli_query($mysqli, $updateCode);
+        if ($stmt = $mysqli->prepare($sql)) {
             $stmt->bind_param("ss", $param_username, $param_password);
 
             $param_username = $username;
@@ -118,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $db->close();
+    $mysqli->close();
 }
 
 ?>
@@ -153,11 +168,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <p><br></p>
-    <form class="box" method="post" enctype="">
-        <h2>register</h2>
+    <form class="box" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <h2>Register</h2>
         <input type="text" name="username" placeholder="Username" autocomplete="username" required>
         <input type="password" name="password" placeholder="Password" autocomplete="password" required>
-        <input type="text" name="invite" placeholder="invite" required>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="password" required>
+        <input type="text" name="invite_code" placeholder="invite" required>
 
         <button class="submit" type="submit">register</button>
         <div class="error">

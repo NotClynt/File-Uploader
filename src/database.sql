@@ -17,6 +17,9 @@ CREATE TABLE `invites` (
   `inviteAuthor` varchar(64) NOT NULL DEFAULT 'System'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `invites` (`id`, `inviteCode`, `inviteAuthor`) VALUES
+(8054, 'ez68Ur8tt2-6iR3XE4sDG-oaA7Y62Lqe-UcnpD8BxuR', 'Setup invite');
+
 CREATE TABLE `pastes` (
   `id` int(32) NOT NULL,
   `title` varchar(128) NOT NULL,
@@ -26,6 +29,8 @@ CREATE TABLE `pastes` (
   `author` varchar(64) NOT NULL,
   `random_id` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 CREATE TABLE `toggles` (
   `maintenance` varchar(32) NOT NULL DEFAULT 'false',
@@ -37,26 +42,6 @@ CREATE TABLE `toggles` (
 INSERT INTO `toggles` (`maintenance`, `allow_uploads`, `announcement`, `id`) VALUES
 ('false', 'true', 'Today is a beautyfull day ', 1);
 
-CREATE TABLE `uploads` (
-  `id` int(32) NOT NULL,
-  `userid` int(32) NOT NULL,
-  `username` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Not Availible',
-  `filename` varchar(64) CHARACTER SET utf8mb4 NOT NULL,
-  `hash_filename` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `original_filename` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Not Defined',
-  `filesize` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0.00 B',
-  `delete_secret` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0000000000000000',
-  `self_destruct_upload` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'false',
-  `embed_color` varchar(7) CHARACTER SET utf8mb4 NOT NULL DEFAULT '%embed_color%',
-  `embed_author` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '%username',
-  `embed_title` varchar(1028) CHARACTER SET utf8mb4 DEFAULT '%filename (%filesize)',
-  `embed_desc` varchar(1028) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'File Host',
-  `role` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'User',
-  `uploaded_at` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0000/00/00 00:00:00',
-  `ip` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0.0.0.0',
-  `views` int(32) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `uuid` varchar(128) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
@@ -65,7 +50,7 @@ CREATE TABLE `users` (
   `banned` varchar(32) NOT NULL DEFAULT 'false',
   `invite` varchar(100) NOT NULL,
   `secret` varchar(128) NOT NULL,
-  `embedcolor` varchar(128) NOT NULL DEFAULT '%embed_color%',
+  `embedcolor` varchar(128) NOT NULL DEFAULT '#fff',
   `embedauthor` varchar(128) DEFAULT '%username',
   `embedtitle` varchar(1028) NOT NULL DEFAULT '%filename (%filesize)',
   `embeddesc` varchar(1028) NOT NULL DEFAULT 'Uploaded at %date by %username',
@@ -87,8 +72,28 @@ CREATE TABLE `users` (
   `upload_limit` varchar(32) NOT NULL DEFAULT '500 MB',
   `upload_size_limit` varchar(32) NOT NULL DEFAULT '32 MB',
   `upload_logo` varchar(512) NOT NULL,
-  `upload_logo_toggle` varchar(32) NOT NULL DEFAULT 'false',
+  `upload_logo_toggle` varchar(32) NOT NULL DEFAULT 'false'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `uploads` (
+  `id` int(32) NOT NULL,
+  `userid` int(32) NOT NULL,
+  `username` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Not Availible',
+  `filename` varchar(64) CHARACTER SET utf8mb4 NOT NULL,
+  `hash_filename` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `original_filename` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'Not Defined',
+  `filesize` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0.00 B',
+  `delete_secret` varchar(16) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0000000000000000',
+  `self_destruct_upload` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'false',
+  `embed_color` varchar(7) CHARACTER SET utf8mb4 NOT NULL DEFAULT '#fff',
+  `embed_author` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '%username',
+  `embed_title` varchar(1028) CHARACTER SET utf8mb4 DEFAULT '%filename (%filesize)',
+  `embed_desc` varchar(1028) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'File Host',
+  `role` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT 'User',
+  `uploaded_at` varchar(128) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0000/00/00 00:00:00',
+  `ip` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '0.0.0.0',
+  `views` int(32) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 ALTER TABLE `embeds`
   ADD PRIMARY KEY (`id`);
@@ -127,6 +132,3 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 COMMIT;
 
-
-INSERT INTO `invites` (`id`, `inviteCode`, `inviteAuthor`) VALUES
-(1, 'ez68Ur8tt2-6iR3XE4sDG-oaA7Y62Lqe-UcnpD8BxuR', 'Setup invite');
