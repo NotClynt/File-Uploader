@@ -22,9 +22,9 @@ if(isset($_POST['urls'])) {
      $config = str_replace("V_DISCORD_INVITE", $discord_invite, $config);
      file_put_contents("../src/config.php", $config);
 
-     $_SESSION['pass1_done'] = true;
+     $_SESSION['step1_done'] = true;
 
-     header("Location: pass2.php");
+     header("Location: step2.php");
 
 }
 

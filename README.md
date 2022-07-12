@@ -23,11 +23,10 @@ Setup the image hoster easy
   1. Download repo
   2. Upload to your webhost
   3. Create database
-  4. Insert DB.sql into your database
-  5. Go to src folder
-  6. Add your database credentials in database.php
-  7. Edit config.php
-  8. Have fun skidding
+  4. Go to domain.com/installer/
+  5. Complete all steps
+  6. Go to domain.com/
+  7. Enjoy
 ```
     
 ## Features

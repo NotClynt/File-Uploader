@@ -7,11 +7,12 @@ if (version_compare($phpVersion, '8.0.20', '<')) {
      die("PHP 8.0.20 or newer is required. $phpVersion does not meet this requirement. Please ask your host to upgrade PHP.");
 }
 
-// check if session pass1_done and pass2_done are set
-if (!isset($_SESSION['pass1_done'])) {
-     header("Location: pass1.php");
-} else if (!isset($_SESSION['pass2_done'])) {
-     header("Location: pass2.php");
+session_start();
+
+if (!isset($_SESSION['step1_done'])) {
+     header("Location: step1.php");
+} else if (!isset($_SESSION['step2_done'])) {
+     header("Location: step2.php");
 }
 
 if(isset($_POST['web'])) {
@@ -25,10 +26,9 @@ if(isset($_POST['web'])) {
      $config = str_replace("V_SERVICE_DESCRIPTION", $service_description, $config);
      file_put_contents("../src/config.php", $config);
 
-     session_start();
-     $_SESSION['pass3_done'] = true;
+     $_SESSION['step3_done'] = true;
 
-     header("Location: pass4.php");
+     header("Location: step4.php");
 
 }
 

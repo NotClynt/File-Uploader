@@ -9,26 +9,47 @@ if (version_compare($phpVersion, '8.0.20', '<')) {
 
 session_start();
 
-if (!isset($_SESSION['pass1_done'])) {
-     header("Location: pass1.php");
+if (!isset($_SESSION['step1_done'])) {
+     header("Location: step1.php");
+} else if (!isset($_SESSION['step2_done'])) {
+     header("Location: step2.php");
+} else if (!isset($_SESSION['step3_done'])) {
+     header("Location: step3.php");
 }
 
-if(isset($_POST['seo'])) {
+if (isset($_POST['db'])) {
 
-     $seo = $_POST['seo'];
-     $embedcolor = $seo['embedcolor'];
-     $description = $seo['description'];
-     $keywords = $seo['keywords'];
+     $db = $_POST['db'];
+     $host = $db['dbHost'];
+     $user = $db['dbUser'];
+     $pass = $db['dbPass'];
+     $dbname = $db['dbName'];
 
-     $config = file_get_contents("../src/config.php");
-     $config = str_replace("V_EMBED_COLOR", $embedcolor, $config);
-     $config = str_replace("V_DESCRIPTION", $description, $config);
-     $config = str_replace("V_KEYWORDS", $keywords, $config);
-     file_put_contents("../src/config.php", $config);
+     $database = file_get_contents("../src/database.php");
+     $database = str_replace("V_HOST", $host, $database);
+     $database = str_replace("V_USER", $user, $database);
+     $database = str_replace("V_PASS", $pass, $database);
+     $database = str_replace("V_DBNAME", $dbname, $database);
 
-     $_SESSION['pass2_done'] = true;
+     $db = new mysqli($host, $user, $pass, $dbname);
 
-     header("Location: pass2.php");
+
+
+     // if database connection success
+     if ($db->connect_error) {
+          die("Connection failed: " . $db->connect_error);
+     } else {
+
+          file_put_contents("../src/database.php", $database);
+
+          $sql = file_get_contents("../src/database.sql");
+          $db->multi_query($sql);
+          $db->close();
+
+          $_SESSION['step3_done'] = true;
+
+          header("Location: done.php");
+     }
 
 }
 
@@ -64,15 +85,15 @@ if(isset($_POST['seo'])) {
      <p><br></p>
      <form class="box" method="post" action="">
 
-          <h2>SEO</h2>
-          <input type="text" name="embedcolor" placeholder="Embed color" required>
-          <input type="text" name="description" placeholder="Description" required>
-          <input type="text" name="keyword" placeholder="Keywords" required>
+          <h2>Database</h2>
+          <input type="text" name="dbHost" placeholder="Database Host" required>
+          <input type="text" name="dbUser" placeholder="Database User" required>
+          <input type="password" name="dbPass" placeholder="Database Password" required>
+          <input type="text" name="dbName" placeholder="Database Name" required>
 
-
-          <button class="submit" type="submit" name="seo">Continue</button>
+          <button class="submit" type="submit" name="db">Continue</button>
           <div class="error">
-               <h3 id="errormsg"></h3>
+               <h3 id="errormsg"><?php if ($db->connect_error) { echo "Error: " . $db->connect_error; } ?></h3>
           </div>
      </form>
 

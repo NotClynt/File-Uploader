@@ -4,14 +4,14 @@ include "../src/require.php";
 
 session_start();
 
-if (!isset($_SESSION['pass1_done'])) {
-     header("Location: pass1.php");
-} else if (!isset($_SESSION['pass2_done'])) {
-     header("Location: pass2.php");
-} else if (!isset($_SESSION['pass3_done'])) {
-     header("Location: pass3.php");
-} else if (!isset($_SESSION['pass4_done'])) {
-     header("Location: pass4.php");
+if (!isset($_SESSION['step1_done'])) {
+     header("Location: step1.php");
+} else if (!isset($_SESSION['step2_done'])) {
+     header("Location: step2.php");
+} else if (!isset($_SESSION['step3_done'])) {
+     header("Location: step3.php");
+} else if (!isset($_SESSION['step4_done'])) {
+     header("Location: step4.php");
 }
 
 ?>
