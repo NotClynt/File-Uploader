@@ -20,6 +20,7 @@ RewriteRule ^paste/([A-Za-z0-9-]+)/?$ dashboard/paste?paste-id=$1 [NC]
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+
 RewriteCond %{REQUEST_URI} "^/api/upload"
 RewriteRule (.*) api/upload.php [L]
 

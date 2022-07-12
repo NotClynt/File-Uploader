@@ -1,20 +1,3 @@
-<?php
-
-include "../src/require.php";
-
-session_start();
-
-if (!isset($_SESSION['step1_done'])) {
-     header("Location: step1.php");
-} else if (!isset($_SESSION['step2_done'])) {
-     header("Location: step2.php");
-} else if (!isset($_SESSION['step3_done'])) {
-     header("Location: step3.php");
-} else if (!isset($_SESSION['step4_done'])) {
-     header("Location: step4.php");
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +5,7 @@ if (!isset($_SESSION['step1_done'])) {
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width">
 
-     <title>Istaller</title>
+     <title>Installer</title>
 
      <link href="../assets/images/icon.png" rel="shortcut icon" />
      <link href="../assets/css/register.css" rel="stylesheet" type="text/css" />

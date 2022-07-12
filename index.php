@@ -1,6 +1,8 @@
 <?php
 
-include 'src/require.php';
+include "./src/config.php";
+include "./src/database.php";
+include "./src/functions.php";
 
 session_start();
 if (isset($_SESSION["username"]) && !isset($_GET["f"])) {
@@ -9,6 +11,19 @@ if (isset($_SESSION["username"]) && !isset($_GET["f"])) {
 ?>
 <html>
 <?php
+
+$sql = "SELECT * FROM users";
+$result = $db->query($sql);
+$totalusers = $result->num_rows;
+
+$sql = "SELECT `banned` FROM `users` WHERE `banned`='true'";
+$result = $db->query($sql);
+$totalbans = $result->num_rows;
+
+$sql = "SELECT id FROM uploads";
+$result = $db->query($sql);
+$totaluploads = $result->num_rows;
+
 
 if (isset($_GET["invite"])) {
      $invitecode = $_GET["invite"];
@@ -36,12 +51,6 @@ if (isset($_GET["invite"])) {
 
 
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "off" ? "https" : "http" . "://";
-function human_filesize($bytes, $decimals)
-{
-     $size = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-     $factor = floor((strlen($bytes) - 1) / 3);
-     return sprintf("%.{$decimals}f ", $bytes / pow(1024, $factor)) . @$size[$factor];
-}
 if (isset($_GET["f"])) {
      $string = $_GET["f"];
      if (strlen($string) > 20) {
@@ -345,12 +354,12 @@ if (isset($_GET["f"])) {
 
           <head>
                <meta charset="UTF-8">
-               <link rel="icon" href="https://<?php CDN_URL ?>/assets/images/icon.png">
-               <title><?php SERVICE_NAME ?></title>
-               <meta name="keywords" content="<?php KEYWORDS ?>">
+               <link rel="icon" href="https://<?php echo CDN_URL ?>/assets/images/icon.png">
+               <title><?php echo SERVICE_NAME ?></title>
+               <meta name="keywords" content="<?php echo KEYWORDS ?>">
                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-               <meta name="description" content="<?php DESCRIPTION ?>">
-               <link rel="stylesheet" href="https://<?php CDN_URL ?>/assets/css/styles.css">
+               <meta name="description" content="<?php echo DESCRIPTION ?>">
+               <link rel="stylesheet" href="https://<?php echo CDN_URL ?>/assets/css/styles.css">
                <meta name="viewport" content="width=device-width, initial-scale=1.0">
           </head>
 
@@ -358,20 +367,20 @@ if (isset($_GET["f"])) {
           <div id="cover-i"></div>
 
           <div class="image">
-               <img src="https://<?php CDN_URL ?>/assets/images/icon.png" alt="" id="logo">
+               <img src="https://<?php echo CDN_URL ?>/assets/images/icon.png" alt="" id="logo">
                <br><br>
                <div id="links">
                     <a href="./login/">login</a>
                     <span>/</span>
                     <a href="./register/">register</a>
                     <span>/</span>
-                    <a href="<?php DISCORD_INVITE ?>" target="_BLANK">discord</a>
+                    <a href="<?php echo DISCORD_INVITE ?>" target="_BLANK">discord</a>
                     <span>/</span>
                     <a id="darkmodeswitch">dark</button>
                </div>
           </div>
 
-          <script src="https://<?php CDN_URL ?>/assets/js/intro.js" type="8ce47bb622587b8a3d5e1594-text/javascript"></script>
+          <script src="https://<?php echo CDN_URL ?>/assets/js/intro.js" type="8ce47bb622587b8a3d5e1594-text/javascript"></script>
           <script type="8ce47bb622587b8a3d5e1594-text/javascript">
                var element = document.body;
                if (localStorage.getItem("darkmodeprefsenabled") == null) {
@@ -396,7 +405,7 @@ if (isset($_GET["f"])) {
                     }
                };
           </script>
-          <script src="https://<?php CDN_URL ?>/assets/js/loader.js" data-cf-settings="8ce47bb622587b8a3d5e1594-|49" defer=""></script>
+          <script src="https://<?php echo CDN_URL ?>/assets/js/loader.js" data-cf-settings="8ce47bb622587b8a3d5e1594-|49" defer=""></script>
      </body>
 
 </html>

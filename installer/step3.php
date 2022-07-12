@@ -1,32 +1,21 @@
 <?php
 
-include "../src/require.php";
 
 $phpVersion = phpversion();
 if (version_compare($phpVersion, '8.0.20', '<')) {
      die("PHP 8.0.20 or newer is required. $phpVersion does not meet this requirement. Please ask your host to upgrade PHP.");
 }
 
-session_start();
-
-if (!isset($_SESSION['step1_done'])) {
-     header("Location: step1.php");
-} else if (!isset($_SESSION['step2_done'])) {
-     header("Location: step2.php");
-}
 
 if(isset($_POST['web'])) {
 
-     $web = $_POST['web'];
-     $service_name = $web['service_name'];
-     $service_description = $web['service_description'];
+     $service_name = $_POST['service_name'];
+     $service_description = $_POST['service_description'];
 
      $config = file_get_contents("../src/config.php");
-     $config = str_replace("V_SERVICE_NAME", $service_name, $config);
-     $config = str_replace("V_SERVICE_DESCRIPTION", $service_description, $config);
+     $config = str_replace("%service_name%", $service_name, $config);
+     $config = str_replace("%service_description%", $service_description, $config);
      file_put_contents("../src/config.php", $config);
-
-     $_SESSION['step3_done'] = true;
 
      header("Location: step4.php");
 
@@ -40,7 +29,7 @@ if(isset($_POST['web'])) {
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width">
 
-     <title>Istaller</title>
+     <title>Installer</title>
 
      <link href="../assets/images/icon.png" rel="shortcut icon" />
      <link href="../assets/css/register.css" rel="stylesheet" type="text/css" />

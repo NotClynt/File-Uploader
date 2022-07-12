@@ -1,35 +1,23 @@
 <?php
 
-include "../src/require.php";
 
 $phpVersion = phpversion();
 if (version_compare($phpVersion, '8.0.20', '<')) {
      die("PHP 8.0.20 or newer is required. $phpVersion does not meet this requirement. Please ask your host to upgrade PHP.");
 }
 
-session_start();
-
-if (!isset($_SESSION['step1_done'])) {
-     header("Location: step1.php");
-} else if (!isset($_SESSION['step2_done'])) {
-     header("Location: step2.php");
-} else if (!isset($_SESSION['step3_done'])) {
-     header("Location: step3.php");
-}
-
 if (isset($_POST['db'])) {
 
-     $db = $_POST['db'];
-     $host = $db['dbHost'];
-     $user = $db['dbUser'];
-     $pass = $db['dbPass'];
-     $dbname = $db['dbName'];
+     $host = $_POST['dbHost'];
+     $user = $_POST['dbUser'];
+     $pass = $_POST['dbPass'];
+     $dbname = $_POST['dbName'];
 
      $database = file_get_contents("../src/database.php");
-     $database = str_replace("V_HOST", $host, $database);
-     $database = str_replace("V_USER", $user, $database);
-     $database = str_replace("V_PASS", $pass, $database);
-     $database = str_replace("V_DBNAME", $dbname, $database);
+     $database = str_replace("%host%", $host, $database);
+     $database = str_replace("%user%", $user, $database);
+     $database = str_replace("%pass%", $pass, $database);
+     $database = str_replace("%name%", $dbname, $database);
 
      $db = new mysqli($host, $user, $pass, $dbname);
 
@@ -46,8 +34,6 @@ if (isset($_POST['db'])) {
           $db->multi_query($sql);
           $db->close();
 
-          $_SESSION['step3_done'] = true;
-
           header("Location: done.php");
      }
 
@@ -61,7 +47,7 @@ if (isset($_POST['db'])) {
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width">
 
-     <title>Istaller</title>
+     <title>Installer</title>
 
      <link href="../assets/images/icon.png" rel="shortcut icon" />
      <link href="../assets/css/register.css" rel="stylesheet" type="text/css" />

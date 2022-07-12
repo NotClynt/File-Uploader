@@ -1,7 +1,5 @@
 <?php
 
-include "../src/require.php";
-
 $phpVersion = phpversion();
 if (version_compare($phpVersion, '8.0.20', '<')) {
      die("PHP 8.0.20 or newer is required. $phpVersion does not meet this requirement. Please ask your host to upgrade PHP.");
@@ -10,19 +8,17 @@ if (version_compare($phpVersion, '8.0.20', '<')) {
 
 if(isset($_POST['urls'])) {
 
-     $urls = $_POST['urls'];
-     $domain = $urls['domain'];
-     $cdn_domain = $urls['cdn_domain'];
-     $discord_invite = $urls['discord_invite'];
+     $domain = $_POST['domain'];
+     $cdn_domain = $_POST['cdn_domain'];
+     $discord_invite = $_POST['discord_invite'];
 
      $config = file_get_contents("../src/config.php");
-     $config = str_replace("V_DOMAIN", $domain, $config);
-     $config = str_replace("V_BASE_DOMAIN", $domain, $config);
-     $config = str_replace("V_CDN_URL", $cdn_domain, $config);
-     $config = str_replace("V_DISCORD_INVITE", $discord_invite, $config);
+     $config = str_replace("%domain%", $domain, $config);
+     $config = str_replace("%base_domain%", $cdn_domain, $config);
+     $config = str_replace("%cdn_url%", $cdn_domain, $config);
+     $config = str_replace("%discord_invite%", $discord_invite, $config);
      file_put_contents("../src/config.php", $config);
 
-     $_SESSION['step1_done'] = true;
 
      header("Location: step2.php");
 
@@ -36,7 +32,7 @@ if(isset($_POST['urls'])) {
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width">
 
-     <title>Istaller</title>
+     <title>Installer</title>
 
      <link href="../assets/images/icon.png" rel="shortcut icon" />
      <link href="../assets/css/register.css" rel="stylesheet" type="text/css" />
