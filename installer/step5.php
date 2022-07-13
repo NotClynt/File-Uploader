@@ -38,7 +38,7 @@ if(isset($_POST['css'])) {
      file_put_contents("../assets/css/cdn.css", $style);
 
 
-     header("Location: step4.php");
+     header("Location: done.php");
 
 }
 

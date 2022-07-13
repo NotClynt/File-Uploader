@@ -36,7 +36,7 @@ if (isset($_POST['db'])) {
 
           unlink("../src/database.sql");
 
-          header("Location: done.php");
+          header("Location: step5.php");
      }
 
 }
