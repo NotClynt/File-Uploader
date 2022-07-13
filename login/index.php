@@ -2,7 +2,6 @@
 
 include "../src/config.php";
 include "../src/database.php";
-include "../src/errors.php";
 
 if (isset($_POST['login'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);

@@ -2,7 +2,6 @@
 
 include "../src/config.php";
 include "../src/database.php";
-include "../src/errors.php";
 
 function generateRandomInt($length)
 {

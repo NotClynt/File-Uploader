@@ -1,3 +1,8 @@
+<?php
+
+include "../src/config.php";
+include "../src/database.php";
+?>
 <!DOCTYPE HTML>
 <html>
 
