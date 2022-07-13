@@ -7,7 +7,7 @@ include "../src/database.php";
 <html>
 
 <head>
-     <title>tesla.sexy | Dashboard</title>
+     <title><?php echo SERVICE_NAME ?> | Dashboard</title>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
      <link rel="stylesheet" href="../assets/css/dash.css">
@@ -23,7 +23,7 @@ include "../src/database.php";
 
      <script>
           window.onload = async () => {
-               const resp = await axios.get('https://api.tesla.sexy/domains/list')
+               const resp = await axios.get('https://<?php echo DOMAIN ?>/domains/list')
                this.domains = resp.data.domains
 
                const listElement = document.getElementById('selectionBox')

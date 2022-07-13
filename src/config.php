@@ -15,6 +15,7 @@ define('EMBED_COLOUR', "%embed_color%", true);
 // URLs
 define('BASE_DOMAIN', "%base_domain%");
 define('CDN_URL', "%cdn_url%");
+define('API_URL', "%api_url%");
 define('DISCORD_INVITE', "%discord_invite%");
 
 

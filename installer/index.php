@@ -14,8 +14,9 @@ if(isset($_POST['urls'])) {
 
      $config = file_get_contents("../src/config.php");
      $config = str_replace("%domain%", $domain, $config);
-     $config = str_replace("%base_domain%", $cdn_domain, $config);
+     $config = str_replace("%base_domain%", $cdomain, $config);
      $config = str_replace("%cdn_url%", $cdn_domain, $config);
+     $config = str_replace("%api_url%", $api_domain, $config);
      $config = str_replace("%discord_invite%", $discord_invite, $config);
      file_put_contents("../src/config.php", $config);
 
@@ -66,6 +67,7 @@ if(isset($_POST['urls'])) {
           <h2>URLs</h2>
           <input type="text" name="domain" placeholder="Domain" required>
           <input type="text" name="cdn_domain" placeholder="CDN Domain" required>
+          <input type="text" name="api_domain" placeholder="API Domain" required>
           <input type="text" name="discord_invite" placeholder="Discord invite" required>
 
 
