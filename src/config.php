@@ -27,4 +27,5 @@ define('KEYWORDS', "%keywords%");
 
 // WEBSITE
 define('SERVICE_NAME', "%service_name%");
+define('SERVICE_VERSION', "1.0.0");
 define('SERVICE_DESCRIPTION', "%service_description%");
