@@ -20,7 +20,7 @@ if (isset($_GET['logout'])) {
 $username = $_SESSION['username'];
 
 $sql = "SELECT * FROM users WHERE username='$username';";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
 if ($row["use_embed"] == "true") {
 
@@ -34,7 +34,7 @@ if (isset($_POST['getNewKey'])) {
 
      $newSecret = generateRandomInt(16);
      $sql = "UPDATE `users` SET `secret` = '$newSecret' WHERE `username` = '" . $_SESSION['username'] . "'";
-     $result = mysqli_query($conn, $sql);
+     $result = mysqli_query($db, $sql);
      header("location: /");
 }
 
@@ -62,9 +62,8 @@ if (isset($_GET['update-embed']))
     header("location: /");
 }
 
-
 $sql = "SELECT secret FROM users WHERE username = '$username'";
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
 $secret = $row['secret'];
 
@@ -87,25 +86,6 @@ $secret = $row['secret'];
      <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
      <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
 
-     <script>
-          window.onload = async () => {
-               const resp = await axios.get('https://<?php echo API_URL ?>/domains/list')
-               this.domains = resp.data.domains
-
-               const listElement = document.getElementById('selectionBox')
-
-               domains.forEach(domain => {
-                    const newElement = document.createElement('option')
-                    newElement.id = domain.name
-                    newElement.innerHTML = domain.name
-                    newElement.className = "bg-dark"
-                    newElement.value = domains.indexOf(domain)
-
-                    listElement.appendChild(newElement)
-               })
-          }
-     </script>
-
 </head>
 
 <body>
@@ -121,7 +101,7 @@ $secret = $row['secret'];
                          <a class="nav-link col-md-4 link-white" href="">profile</a>
                          <a class="nav-link col-md-4 link-white" href="">images</a>
                          <a class="nav-link col-md-4 link-white" href="">paste</a>
-                         <a class="nav-link col-md-4 link-white" href="">logout</a>
+                         <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
                     </div>
                </div>
           </div>
@@ -142,9 +122,16 @@ $secret = $row['secret'];
 
                          <select id="selectionBox" class="form-select text-white bg-blur mb-4" aria-label="Default select example">
                               <option class="bg-dark" selected>Choose a domain</option>
+                              <?php 
+                              $sql = "SELECT name FROM domains";
+                              $result = mysqli_query($db, $sql);
+                              while ($row = mysqli_fetch_assoc($result)) {
+                                   echo "<option class='bg-dark'>" . $row['name'] . "</option>";
+                              }
+                              ?>
                          </select>
 
-                         <button onclick="if (!window.__cfRLUnblockHandlers) return false; handleSave()" id="saveButton" type="button" class="btn btn-lg btn-primary" data-cf-modified-0031b96d8dcda876e9f76fb2-="">save</button>
+                         <button id="saveButton" type="button" class="btn btn-lg btn-primary" data-cf-modified-0031b96d8dcda876e9f76fb2-="">save</button>
 
                     </form>
                </div>
@@ -156,16 +143,14 @@ $secret = $row['secret'];
           <div class="card text-white bg-blur my-3">
                <div class="card-header">Embed settings</div>
                <div class="card-body">
-                    <form class="text-center">
+                    <form class="text-center" action="?update" method="post" name="form" enctype="multipart/form-data">
 
                          <div class="d-flex justify-content-center mb-4">
                               <div class="d-flex gap-3 ">
 
                                    <div class="form-check form-switch">
-                                        <form action="?update" method="post" name="form" enctype="multipart/form-data">
                                              <input class="form-check-input" name="use_embeds" type="checkbox" id="embedEnabledTickbox" <?php echo $useembed ?> data-cf-modified-0031b96d8dcda876e9f76fb2-="" />
                                              <label class="form-check-label" for="embedEnabledTickbox">Enable Embeds</label>
-                                        </form>
                                    </div>
 
                               </div>
@@ -184,7 +169,7 @@ $secret = $row['secret'];
                <div class="card-body">
                     <h3 class="card-title">ShareX Key</h3>
                     <h3 id="keyTitle" class="card-title blurredtext"><?php echo $secret ?></h3>
-                    <button onclick="generateConfig()" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Download Config</button>
+                    <button onclick="generateConfig()" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Download Config</button><br>
                     <form method="POST" action="">
                          <button type="submit" name="getNewKey" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Reset Key</button>
                     </form>

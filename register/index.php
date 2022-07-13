@@ -88,7 +88,7 @@ if (isset($_POST['reg'])) {
                 $_SESSION['key'] = $key;
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $_SESSION['success'] = "You are now logged in";
-                header('location: ../dashboard/discord/');
+                header('location: ../login/');
             }
         } else {
             $error = "Invite is not valid.";

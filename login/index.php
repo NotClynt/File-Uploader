@@ -7,34 +7,35 @@ if (isset($_POST['login'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
 
-    $error = "";
+    $errors = "";
 
     if (empty($username)) {
-        $error = "Username is required";
+        $errors = "Username is required";
     }
     if (empty($password)) {
-        $error = "Password is required";
+        $errors = "Password is required";
     }
 
-    if (count($errors) == 0) {
-        $query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
-        $result = mysqli_query($db, $query);
-        $user = mysqli_fetch_assoc($result);
-        if ($user) {
+    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+    $result = mysqli_query($db, $user_check_query);
+    $user = mysqli_fetch_assoc($result);
+
+    if ($user) {
+        if ($user['username'] == $username) {
             if (password_verify($password, $user['password'])) {
-                if (!file_exists('../uploads/' . $uuid . '/')) {
-                    mkdir('../uploads/' . $uuid . '/', 0777, true);
-                }
-                $_SESSION['username'] = "";
+                session_start();
+                $_SESSION['username'] = $username;
                 $_SESSION['uploads'] = $user['uploads'];
                 $_SESSION['success'] = "<div class='card' <div class='card-body'> <br> <h3 class='card-text' style='color: green;'>You are Logged in!</h3> <br> </div> </div> <br>";
-                header('location: ../dashboard/');
+                header("Location: ../index.php");
             } else {
-                $error = "Wrong username/password combination";
+                $errors = "Password is incorrect";
             }
         } else {
-            $error = "Wrong username/password combination";
+            $errors = "Username is incorrect";
         }
+    } else {
+        $errors = "Username is incorrect";
     }
 }
 

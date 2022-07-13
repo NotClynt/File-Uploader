@@ -10,4 +10,9 @@ if ($result->num_rows > 0) {
         $domains[] = $row;
     }
 }
-echo json_encode($domains);
+
+$print = array(
+    "domains" => $domains
+);
+
+echo json_encode($print);
