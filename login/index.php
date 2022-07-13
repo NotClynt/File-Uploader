@@ -1,66 +1,42 @@
-<?php 
+<?php
 
 include "../src/config.php";
 include "../src/database.php";
+include "../src/errors.php";
 
-$username = $password = "";
-$username_err = $password_err = "";
+if (isset($_POST['login'])) {
+    $username = mysqli_real_escape_string($db, $_POST['username']);
+    $password = mysqli_real_escape_string($db, $_POST['password']);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $error = "";
 
-    if (empty(trim($_POST["username"]))) {
-        $username_err = "Please enter username.";
-    } else {
-        $username = trim($_POST["username"]);
+    if (empty($username)) {
+        $error = "Username is required";
+    }
+    if (empty($password)) {
+        $error = "Password is required";
     }
 
-    if (empty(trim($_POST["password"]))) {
-        $password_err = "Please enter your password.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    if (empty($username_err) && empty($password_err)) {
-        $sql = "SELECT * FROM users WHERE username = ?";
-
-        if ($stmt = $db->prepare($sql)) {
-            $stmt->bind_param("s", $param_username);
-
-            $param_username = $username;
-
-            if ($stmt->execute()) {
-
-                $stmt->store_result();
-
-                if ($stmt->num_rows == 1) {
-
-                    $stmt->bind_result($id, $username, $hash_password);
-                    if ($stmt->fetch()) {
-                        if (password_verify($password, $hash_password)) {
-
-                            session_start();
-
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
-
-                            header("location: index.php");
-                        } else {
-                            $password_err = "The password you entered was not valid.";
-                        }
-                    }
-                } else {
-                    $username_err = "No account found with that username.";
+    if (count($errors) == 0) {
+        $query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+        $result = mysqli_query($db, $query);
+        $user = mysqli_fetch_assoc($result);
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+                if (!file_exists('../uploads/' . $uuid . '/')) {
+                    mkdir('../uploads/' . $uuid . '/', 0777, true);
                 }
+                $_SESSION['username'] = "";
+                $_SESSION['uploads'] = $user['uploads'];
+                $_SESSION['success'] = "<div class='card' <div class='card-body'> <br> <h3 class='card-text' style='color: green;'>You are Logged in!</h3> <br> </div> </div> <br>";
+                header('location: ../dashboard/');
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                $error = "Wrong username/password combination";
             }
-
-            $stmt->close();
+        } else {
+            $error = "Wrong username/password combination";
         }
     }
-
-    $db->close();
 }
 
 ?>
@@ -97,19 +73,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <p><br></p>
-    <form class="box" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form class="box" method="post">
         <h2>Login</h2>
         <input type="text" name="username" placeholder="Username" autocomplete="username" required>
         <input type="password" name="password" placeholder="Password" autocomplete="password" required>
 
-        <button class="submit" type="submit">login</button>
+        <button class="submit" type="submit" name="login">login</button>
         <div class="error">
-            <h3 id="errormsg"><?php echo htmlspecialchars($username_err); ?> <br> <?php echo htmlspecialchars($password_err); ?></h3>
+            <h3 id="errormsg"><?php echo $error ?></h3>
         </div>
     </form>
     <script type="62ed7cfc56cbe71c210c285b-text/javascript">
         var element = document.body;
-        if (localStorage.getItem("darkmodeprefsenabled") == null) {localStorage.setItem("darkmodeprefsenabled", false);}
+        if (localStorage.getItem("darkmodeprefsenabled") == null) {
+            localStorage.setItem("darkmodeprefsenabled", false);
+        }
         if (localStorage.getItem("darkmodeprefsenabled") == "true") {
             element.classList.toggle("darkmode");
         }

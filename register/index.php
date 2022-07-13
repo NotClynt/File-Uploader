@@ -2,6 +2,7 @@
 
 include "../src/config.php";
 include "../src/database.php";
+include "../src/errors.php";
 
 function generateRandomInt($length)
 {
@@ -25,116 +26,79 @@ $tag = generateRandomInt(4);
 date_default_timezone_set('Europe/Amsterdam');
 $date = date("F d, Y h:i:s A");
 
-$username = $password = $confirm_password = $invite_code = $email = "";
-$username_err = $password_err = $confirm_password_err = $invite_code_err = "";
+$username = "";
+$errors = array();
+$succeded = array();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['reg'])) {
 
-    if (empty(trim($_POST["username"]))) {
-        $username_err = "Please enter a username.";
-    } elseif (strlen(trim($_POST["username"])) < 3) {
-        $username_err = "Username must have atleast 4 characters.";
-    } elseif (strlen(trim($_POST["username"])) > 10) {
-        $username_err = "Username is too long.";
+    $username = mysqli_real_escape_string($db, $_POST['username']);
+    $password = mysqli_real_escape_string($db, $_POST['password']);
+    $c_password = mysqli_real_escape_string($db, $_POST['c_password']);
+    $key = mysqli_real_escape_string($db, $_POST['key']);
+    if (empty($username)) {
+        $error = "Username is required";
+    }
+    if (empty($password)) {
+        $error = "Password is required";
+    }
+    if (empty($key)) {
+        $error = "Invite code is requires";
+    }
+    if ($password != $c_password) {
+        $error = "Password do not match";
+    }
+
+    $user_check_query = "SELECT * FROM users WHERE username='$username' LIMIT 1";
+    $result = mysqli_query($db, $user_check_query);
+    $user = mysqli_fetch_assoc($result);
+
+    if ($user) {
+        if ($user['username'] == $username) {
+            $error = "Username already exists.";
+        } else {
+            $error = "Already registered.";
+        }
     } else {
-        $sql = "SELECT id FROM users WHERE username = ?";
+    }
+    $query = "SELECT * FROM users WHERE invite='$key'";
+    $exquery = mysqli_query($db, $query);
 
-        if ($stmt = $mysqli->prepare($sql)) {
-            $stmt->bind_param("s", $param_username);
+    if (mysqli_num_rows($exquery) > 0) {
 
-            $param_username = trim($_POST["username"]);
-
-            if ($stmt->execute()) {
-                $stmt->store_result();
-
-                if ($stmt->num_rows == 1) {
-                    $username_err = "This username is already taken.";
-                } else {
-                    $username = trim($_POST["username"]);
+        $error = "Invite is already assigned to another Account.";
+    } else {
+        $regQuery = "SELECT * FROM `invites` WHERE `inviteCode`='$key';";
+        $regReq = mysqli_query($db, $regQuery);
+        $regResult = mysqli_fetch_assoc($regReq);
+        $inviter = $regResult['inviteAuthor'];
+        if ($regResult['inviteCode'] == $key) {
+            $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
+            mysqli_query($db, $delquery);
+            $ranPass = generateRandomInt(16);
+            date_default_timezone_set('Europe/Amsterdam');
+            $date = date("F d, Y h:i:s A");
+            if (count($errors) == 0) {
+                if (!file_exists('../uploads/' . $uuid)) {
+                    mkdir('../uploads/' . $uuid, 0777, true);
                 }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            $stmt->close();
-        }
-    }
-
-    if (empty(trim($_POST["password"]))) {
-        $password_err = "Please enter a password.";
-    } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have atleast 6 characters.";
-    } else {
-        $password = trim($_POST["password"]);
-    }
-
-    if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm password.";
-    } else {
-        $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($password_err) && ($password != $confirm_password)) {
-            $confirm_password_err = "Password did not match.";
-        }
-    }
-
-
-    if (empty(trim($_POST["invite_code"]))) {
-        $invite_code_err = "Please enter an invite code.";
-    } else {
-        $provided = $_POST["invite_code"];
-
-        $getCode = "SELECT inviteCode FROM invites WHERE code ='{$provided}'";
-        $checkCode = "SELECT * FROM invites WHERE inviteCode ='{$provided}'";
-        $updateCode = "DELETE FROM invites WHERE inviteCode = '{$provided}'";
-
-        $fetchGetCode = $db->query($getCode);
-        $run_fetchGetCode = $fetchGetCode->fetch_assoc();
-        $fetchCheckCode = $db->query($checkCode);
-        $run_fetchCheckCode = $fetchCheckCode->fetch_assoc();
-
-        $keyQuery = "SELECT * FROM `invites` WHERE `inviteCode`='$provided';";
-        $keyResult = mysqli_query($mysqli, $keyQuery);
-        $keyRow = mysqli_fetch_array($keyResult);
-        $inviter = $keyRow['inviteCode'];
-
-        if ($run_fetchGetCode) {
-            if ($run_fetchCheckCode[0] == 1) {
-                $invite_code_err = "The code is already used.";
-            } else {
-                $invite_code_err = "";
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret, embedcolor, embedauthor, embedtitle, embeddesc, reg_date, use_embed, use_customdomain, self_destruct_upload, filename_type, url_type, uploads, upload_domain, discord_username, discord_id, inviter, last_uploaded, upload_limit, upload_size_limit, upload_logo, upload_logo_toggle) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$invite', '$ranPass', '%embed_color%', '%service_name%', '%filename (%filesize)', 'Uploaded by %username at %date', '$date', 'true', 'false', 'false', 'false', 'short', 'short', 0, '%domain%', 'user#0000', '$inviter', '$date', '500 MB', '32 MB', 'https://%domain%/assets/images/icon.png', 'false');";
+                mysqli_query($db, $query);
+                $_SESSION['username'] = $username;
+                $_SESSION['key'] = $key;
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $_SESSION['success'] = "You are now logged in";
+                header('location: ../dashboard/discord/');
             }
         } else {
-            $invite_code_err = "The code does not exists.";
+            $error = "Invite is not valid.";
         }
     }
-
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($invite_code_err)) {
-
-        $sql = "INSERT INTO users (uuid, username, password, banned, invite, secret, embedcolor, embedauthor, embedtitle, embeddesc, reg_date, use_embed, use_customdomain, self_destruct_upload, filename_type, url_type, uploads, upload_domain, discord_username, discord_id, inviter, last_uploaded, upload_limit, upload_size_limit, upload_logo, upload_logo_toggle) VALUES ('$uuid', ?, ?, 'false', '$provided', '$ranPass', '%embed_color%', '%service_name%', '%filename (%filesize)', 'Uploaded by %username at %date', '$date', 'true', 'false', 'false', 'false', 'short', 'short', 0, '%domain%', 'user#0000', '000000000000000000', '$inviter', 'Could not find Date', '500 MB', '32 MB', 'https://%domain%/assets/images/icon.png', 'false',)";
-
-        if (!file_exists('uploads/' . $uuid)) {
-            mkdir('uploads/' . $uuid, 0777, true);
-        }
-
-        mysqli_query($mysqli, $updateCode);
-        if ($stmt = $mysqli->prepare($sql)) {
-            $stmt->bind_param("ss", $param_username, $param_password);
-
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT);
-
-            if ($stmt->execute()) {
-                header("location: login.php");
-            } else {
-                echo "Something went wrong. Please try again later.";
-            }
-
-            $stmt->close();
-        }
-    }
-
-    $mysqli->close();
 }
+
+
+
 
 ?>
 <html>
@@ -168,16 +132,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <p><br></p>
-    <form class="box" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form class="box" method="post">
         <h2>Register</h2>
         <input type="text" name="username" placeholder="Username" autocomplete="username" required>
         <input type="password" name="password" placeholder="Password" autocomplete="password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="password" required>
-        <input type="text" name="invite_code" placeholder="invite" required>
+        <input type="password" name="c_password" placeholder="Confirm Password" autocomplete="password" required>
+        <input type="text" name="key" placeholder="Invite" required>
 
-        <button class="submit" type="submit">register</button>
+        <button class="submit" type="submit" name="reg">register</button>
         <div class="error">
-            <h3 id="errormsg"></h3>
+            <h3 id="errormsg"><?php echo $error ?></h3>
         </div>
     </form>
 
