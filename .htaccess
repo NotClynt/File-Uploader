@@ -22,7 +22,7 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
 RewriteCond %{REQUEST_URI} "^/api/upload"
-RewriteRule (.*) api/upload.php [L]
+RewriteRule (.*) upload.php [L]
 
 RewriteCond %{REQUEST_URI} "^/api/domains/list"
 RewriteRule (.*) api/domains.php [L]

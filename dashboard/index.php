@@ -38,28 +38,40 @@ if (isset($_POST['getNewKey'])) {
      header("location: /");
 }
 
-if (isset($_POST['update'])) {
-     if (isset($_POST['use_embeds'])) {
-          $sql3 = "UPDATE users SET use_embed='true' WHERE username='" . $username . "';";
-          $result3 = mysqli_query($db, $sql3);
-     }
-     if (!isset($_POST['use_embeds'])) {
-          $sql3 = "UPDATE users SET use_embed='false' WHERE username='" . $username . "';";
-          $result3 = mysqli_query($db, $sql3);
-     }
+if (isset($_POST['enable-embed'])) {
+     $sql = "UPDATE users SET use_embed='true' WHERE username='" . $username . "';";
+     $result = mysqli_query($db, $sql);
 
+     header("location: /");
+
+}
+
+if (isset($_POST['disable-embed'])) {
+     $sql = "UPDATE users SET use_embed='false' WHERE username='" . $username . "';";
+     $result = mysqli_query($db, $sql);
 
      header("location: /");
 }
 
-if (isset($_GET['update-embed']))
-{
-    if (isset($_POST['embedtitle']) && isset($_POST['embeddesc']) && isset($_POST['embedauthor']) && isset($_POST['colorpicker']))
-    {
-        $sql = "UPDATE `users` SET `embedtitle` = '" . $_POST['embedtitle'] . "', `embeddesc` = '" . $_POST['embeddesc'] . "', `embedauthor` = '" . $_POST['embedauthor'] . "', `embedcolor` = '" . $_POST['colorpicker'] . "' WHERE `username` = '" . $_SESSION['username'] . "'";
-        $result = mysqli_query($db, $sql);
-    }
-    header("location: /");
+
+
+if (isset($_GET['update-embed'])) {
+     if (isset($_POST['embedtitle']) && isset($_POST['embeddesc']) && isset($_POST['embedauthor']) && isset($_POST['colorpicker'])) {
+          $sql = "UPDATE `users` SET `embedtitle` = '" . $_POST['embedtitle'] . "', `embeddesc` = '" . $_POST['embeddesc'] . "', `embedauthor` = '" . $_POST['embedauthor'] . "', `embedcolor` = '" . $_POST['colorpicker'] . "' WHERE `username` = '" . $_SESSION['username'] . "'";
+          $result = mysqli_query($db, $sql);
+     }
+     header("location: /");
+}
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_assoc($result);
+if ($row["use_embed"] == "true") {
+
+     $useembed = "checked";
+} else {
+
+     $useembed = "false";
 }
 
 $sql = "SELECT secret FROM users WHERE username = '$username'";
@@ -122,7 +134,7 @@ $secret = $row['secret'];
 
                          <select id="selectionBox" class="form-select text-white bg-blur mb-4" aria-label="Default select example">
                               <option class="bg-dark" selected>Choose a domain</option>
-                              <?php 
+                              <?php
                               $sql = "SELECT name FROM domains";
                               $result = mysqli_query($db, $sql);
                               while ($row = mysqli_fetch_assoc($result)) {
@@ -149,14 +161,20 @@ $secret = $row['secret'];
                               <div class="d-flex gap-3 ">
 
                                    <div class="form-check form-switch">
-                                             <input class="form-check-input" name="use_embeds" type="checkbox" id="embedEnabledTickbox" <?php echo $useembed ?> data-cf-modified-0031b96d8dcda876e9f76fb2-="" />
-                                             <label class="form-check-label" for="embedEnabledTickbox">Enable Embeds</label>
+
+                                        <input type="checkbox" class="form-check-input" name="use_embeds" <?php echo $useembed ?>>
+                                        <label class="form-check-label" for="use_embeds">Embeds</label>
                                    </div>
 
                               </div>
                          </div>
 
-                         <button type="button" class="btn btn-lg btn-primary" data-mdb-toggle="modal" data-mdb-target="#embeds">Configure</button>
+                         <?php if ($useembed == "checked") { ?>
+                              <button type="button" class="btn btn-lg btn-primary" data-mdb-toggle="modal" data-mdb-target="#embeds">Configure</button>
+                              <button type="button" class="btn btn-lg btn-primary" type="submit" name="disable-embed">Disable Embeds</button>
+                         <?php } else if ($useembed == "false") { ?>
+                              <button type="button" class="btn btn-lg btn-primary" type="submit" name="enable-embed">Enable Embeds</button>
+                         <?php } ?>
 
                     </form>
                </div>
@@ -172,48 +190,6 @@ $secret = $row['secret'];
                     <button onclick="generateConfig()" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Download Config</button><br>
                     <form method="POST" action="">
                          <button type="submit" name="getNewKey" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Reset Key</button>
-                    </form>
-               </div>
-          </div>
-
-          <div class="modal fade" id="embeds" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-               <div class="modal-dialog">
-                    <div class="card-body px-3 py-4-5">
-                         <a style="color: white;">%username</a><a style="color: grey;"> - Displays your Username</a><br>
-                         <a style="color: white;">%filename</a><a style="color: grey;"> - Displays the Name of the uploaded File</a><br>
-                         <a style="color: white;">%filesize</a><a style="color: grey;"> - Displays the Size of the uploaded File<< /a><br>
-                         <a style="color: white;">%id</a><a style="color: grey;"> - Displays your User ID</a><br>
-                         <a style="color: white;">%date</a><a style="color: grey;"> - Displays the time when the File was uploaded</a><br>
-                         <a style="color: white;">%uploads</a><a style="color: grey;"> - Displays the amount of uploads you have</a>
-                    </div>
-                    <form action="?update-embed" method="post" name="form" enctype="multipart/form-data">
-                         <div class="modal-content text-white bg-dark">
-                              <div class="modal-header">
-                                   <h5 class="modal-title" id="exampleModalLabel">Embed Settings</h5>
-                                   <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                              </div><br>
-                              <div class="form-outline form-white mb-2">
-                                   <input type="text" name="embedtitle" id="embedtitle" placeholder="<?php echo $row['embedtitle']; ?>" value="<?php echo $row['embedtitle']; ?>" class="form-control" />
-                                   <label class="form-label" for="embedTitleField"><?php echo $row['embedtitle']; ?></label>
-                              </div>
-
-                              <div class="form-outline form-white mb-2">
-                                   <input type="text" name="embeddesc" id="embeddescription" placeholder="<?php echo $row['embeddesc']; ?>" value="<?php echo $row['embeddesc']; ?>" class="form-control" />
-                                   <label class="form-label" for="embedDescriptionField"><?php echo $row['embeddesc']; ?></label>
-                              </div>
-
-                              <div class="form-outline form-white mb-2">
-                                   <input type="text" id="embedAuthorField" name="embedauthor" id="embedauthor" placeholder="<?php echo $row['embedauthor']; ?>" value="<?php echo $row['embedauthor']; ?>" class="form-control" />
-                                   <label class="form-label" for="embedAuthorField"><?php echo $row['embedauthor']; ?></label>
-                              </div>
-
-                              <div class="form-outline form-white mb-2">
-                                   <p1 class="form-control">color</p1>
-                                   <input type="color" id="colorpicker" name="colorpicker" value="<?php echo $row['embedcolor']; ?>" class="form-control" style="height: 3em" />
-                              </div>
-
-                              <button type="button" data-mdb-dismiss="modal" onclick="abfrage(this.form)" value="Save" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Save</button>
-                         </div>
                     </form>
                </div>
           </div>
@@ -254,6 +230,16 @@ $secret = $row['secret'];
                setTimeout(() => {
                     download(filename, text);
                }, 1000)
+          }
+     </script>
+
+     <script>
+          function abfrage(form) {
+               if (form.confirm.checked) {
+
+               } else {
+
+               }
           }
      </script>
 </body>

@@ -21,9 +21,6 @@ if (isset($_POST['db'])) {
 
      $db = new mysqli($host, $user, $pass, $dbname);
 
-
-
-     // if database connection success
      if ($db->connect_error) {
           die("Connection failed: " . $db->connect_error);
      } else {
@@ -36,7 +33,7 @@ if (isset($_POST['db'])) {
 
           unlink("../src/database.sql");
 
-          header("Location: step5.php");
+          header("Location: done.php");
      }
 
 }

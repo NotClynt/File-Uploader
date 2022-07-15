@@ -85,7 +85,7 @@ if (isset($_GET["f"])) {
           $upload_background = $result1234["upload_background"];
           $upload_background_toggle = $result1234["upload_background_toggle"];
           $useridentification = $result1234["uuid"];
-          header("Location: https://" . BASE_DOMAIN . "/$filename");
+          header("Location: https://" . DOMAIN . "/$filename");
           exit;
      } else {
           $type = strrchr($string, '.');
@@ -130,7 +130,7 @@ if (isset($_GET["f"])) {
           if (strpos($user_agent, "Discordbot")) {
                die("fuck off discord");
           } else {
-               unlink("/var/www/html/uploads/$uuid/$username/" . $filename);
+               unlink("/uploads/$uuid/$username/" . $filename);
                $query = "SELECT * FROM users WHERE username='$username'";
                $result = mysqli_query($db, $query);
                if (mysqli_num_rows($result) > 0) {
@@ -155,8 +155,8 @@ if (isset($_GET["f"])) {
 
                <head>
 
-                    <title><?php SERVICE_NAME; ?>|<?php echo $_GET["f"]; ?></title>
-                    <link rel="stylesheet" href="hhttps://<?php CDN_URL ?>/assets/css/cdn.css">
+                    <title><?php echo SERVICE_NAME; ?>|<?php echo $_GET["f"]; ?></title>
+                    <link rel="stylesheet" href="https://<?php echo CDN_URL ?>/assets/css/cdn.css">
                     <meta charset="UTF-8">
                     <style>
                          .logoname {
@@ -204,77 +204,77 @@ if (isset($_GET["f"])) {
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - ZIP.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - ZIP.png'>
 
                          <!-- RAR -->
                     <?php elseif ($type == "rar") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - RAR.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - RAR.png'>
 
                          <!-- TORRENT -->
                     <?php elseif ($type == "torrent") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - U.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - U.png'>
 
                          <!-- EXE -->
                     <?php elseif ($type == "exe") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - EXE.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - EXE.png'>
 
                          <!-- WAV -->
                     <?php elseif ($type == "wav") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - WAV.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - WAV.png'>
 
                          <!-- MP3 -->
                     <?php elseif ($type == "mp3") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - MP3.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - MP3.png'>
 
                          <!-- JS -->
                     <?php elseif ($type == "js") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - JS.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - JS.png'>
 
                          <!-- PYTHON -->
                     <?php elseif ($type == "py") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - PYTHON.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - PYTHON.png'>
 
                          <!-- CSS -->
                     <?php elseif ($type == "css") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - CSS.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - CSS.png'>
 
                          <!-- HTML -->
                     <?php elseif ($type == "html") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - HTML.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - HTML.png'>
 
                          <!-- C# -->
                     <?php elseif ($type == "cs") : ?>
                          <meta name='twitter:card' content='summary_large_image'>
                          <meta name="twitter:description" property="og:description" itemprop="description" content="<?php echo $description; ?>">
                          <meta name='twitter:title' content='<?php echo $title; ?>'>
-                         <meta name='twitter:image' content='https://<?php CDN_URL ?>/assets/images/icons/Filetype - C#.png'>
+                         <meta name='twitter:image' content='https://<?php echo CDN_URL ?>/assets/images/icons/Filetype - C#.png'>
 
 
                     <?php else : ?>
@@ -313,7 +313,7 @@ if (isset($_GET["f"])) {
                </div>
                <div class='main'>
                     <div class='upload'>
-                         <a href='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'><img class='image' src='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'></a><br>
+                         <a href='/uploads/$useridentification/$username/$filename'><img class='image' src='/uploads/$useridentification/$username/$filename'></a><br>
                          <p1 class='uploadedby' style='color: white;'>Uploaded by: $username at $uploaded_at</p1>
                     </div>
                </div>";
@@ -324,7 +324,7 @@ if (isset($_GET["f"])) {
                </div>
                <div class='main'>
                     <div class='upload'>
-                         <a href='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'><img class='image' src='<?php echo '/uploads/$useridentification/$username/' . $filename; ?>'></a><br>
+                         <a href='/uploads/$useridentification/$username/$filename'><img class='image' src='/uploads/$useridentification/$username/$filename'></a><br>
                          <p1 class='uploadedby' style='color: white;'>Uploaded by: $username at $uploaded_at</p1>
                     </div>
                </div>";
