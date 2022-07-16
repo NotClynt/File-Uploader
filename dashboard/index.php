@@ -43,7 +43,6 @@ if (isset($_POST['enable-embed'])) {
      $result = mysqli_query($db, $sql);
 
      header("location: /");
-
 }
 
 if (isset($_POST['disable-embed'])) {
@@ -65,14 +64,7 @@ if (isset($_GET['update-embed'])) {
 
 $sql = "SELECT * FROM users WHERE username='$username';";
 $result = mysqli_query($db, $sql);
-$row = mysqli_fetch_assoc($result);
-if ($row["use_embed"] == "true") {
-
-     $useembed = "checked";
-} else {
-
-     $useembed = "false";
-}
+$embed = mysqli_fetch_assoc($result);
 
 $sql = "SELECT secret FROM users WHERE username = '$username'";
 $result = mysqli_query($db, $sql);
@@ -155,25 +147,17 @@ $secret = $row['secret'];
           <div class="card text-white bg-blur my-3">
                <div class="card-header">Embed settings</div>
                <div class="card-body">
-                    <form class="text-center" action="?update" method="post" name="form" enctype="multipart/form-data">
+                    <form class="text-center" action="" method="post">
 
-                         <div class="d-flex justify-content-center mb-4">
-                              <div class="d-flex gap-3 ">
-
-                                   <div class="form-check form-switch">
-
-                                        <input type="checkbox" class="form-check-input" name="use_embeds" <?php echo $useembed ?>>
-                                        <label class="form-check-label" for="use_embeds">Embeds</label>
-                                   </div>
-
-                              </div>
-                         </div>
-
-                         <?php if ($useembed == "checked") { ?>
+                         <?php
+                         $sql = "SELECT * FROM users WHERE username='$username';";
+                         $result = mysqli_query($db, $sql);
+                         $roww = mysqli_fetch_assoc($result);
+                         if ($roww["use_embed"] == "true") { ?>
                               <button type="button" class="btn btn-lg btn-primary" data-mdb-toggle="modal" data-mdb-target="#embeds">Configure</button>
-                              <button type="button" class="btn btn-lg btn-primary" type="submit" name="disable-embed">Disable Embeds</button>
-                         <?php } else if ($useembed == "false") { ?>
-                              <button type="button" class="btn btn-lg btn-primary" type="submit" name="enable-embed">Enable Embeds</button>
+                              <button class="btn btn-lg btn-primary" type="submit" name="disable-embed">Disable Embeds</button>
+                         <?php } else { ?>
+                              <button class="btn btn-lg btn-primary" type="submit" name="enable-embed">Enable Embeds</button>
                          <?php } ?>
 
                     </form>
@@ -187,9 +171,54 @@ $secret = $row['secret'];
                <div class="card-body">
                     <h3 class="card-title">ShareX Key</h3>
                     <h3 id="keyTitle" class="card-title blurredtext"><?php echo $secret ?></h3>
-                    <button onclick="generateConfig()" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Download Config</button><br>
+                    <button onclick="generateConfig()" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Download Config</button><br><br>
                     <form method="POST" action="">
                          <button type="submit" name="getNewKey" class="btn btn-lg btn-primary" type="button" data-cf-modified-0031b96d8dcda876e9f76fb2-="">Reset Key</button>
+                    </form>
+               </div>
+          </div>
+
+          <div class="modal fade" id="embeds" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+                    <form action="?update-embed" method="post" name="form" enctype="multipart/form-data">
+                         <div class="modal-content text-white bg-dark">
+                              <div class="modal-header">
+                                   <h5 class="modal-title" id="exampleModalLabel">Embed Settings</h5>
+                                   <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                              </div><br>
+                              <div class="form-outline form-white mb-2">
+                                   <input type="text" name="embedtitle" id="embedtitle" value="<?php echo $embed['embedtitle']; ?>" class="form-control" />
+                                   <label class="form-label" for="embedtitle"><?php echo $embed['embedtitle']; ?></label>
+                              </div>
+
+                              <div class="form-outline form-white mb-2">
+                                   <input type="text" name="embeddesc" id="embeddescription" value="<?php echo $embed['embeddesc']; ?>" class="form-control" />
+                                   <label class="form-label" for="embeddesc"><?php echo $embed['embeddesc']; ?></label>
+                              </div>
+
+                              <div class="form-outline form-white mb-2">
+                                   <input type="text" name="embedauthor" id="embedauthor" value="<?php echo $embed['embedauthor']; ?>" class="form-control" />
+                                   <label class="form-label" for="embedauthor"><?php echo $embed['embedauthor']; ?>.</label>
+                              </div>
+
+                              <div class="form-outline form-white mb-2">
+                                   <p1 class="form-control">color</p1>
+                                   <input type="color" value="<?php echo $embed['embedcolor']; ?>" id="colorpicker" name="colorpicker" class="form-control" style="height: 3em" />
+                              </div>
+
+                              <input type="submit" class="btn btn-lg btn-primary"" name="button1" onclick="abfrage(this.form)" value="Save" />
+                              <!-- <button class="btn btn-lg btn-primary" type="button" data-mdb-dismiss="modal">Save</button> -->
+
+                              <!-- TODO: Add dropdown -->
+                              <div class="card-body px-3 py-4-5">
+                                   <a style="color: white;">%username</a><a style="color: grey;"> - Displays your Username</a><br>
+                                   <a style="color: white;">%filename</a><a style="color: grey;"> - Displays the Name of the uploaded File</a><br>
+                                   <a style="color: white;">%filesize</a><a style="color: grey;"> - Displays the Size of the uploaded File<< /a><br>
+                                   <a style="color: white;">%id</a><a style="color: grey;"> - Displays your User ID</a><br>
+                                   <a style="color: white;">%date</a><a style="color: grey;"> - Displays the time when the File was uploaded</a><br>
+                                   <a style="color: white;">%uploads</a><a style="color: grey;"> - Displays the amount of uploads you have</a>
+                              </div>
+                         </div>
                     </form>
                </div>
           </div>
@@ -217,7 +246,7 @@ $secret = $row['secret'];
   "Name": "<?php echo SERVICE_NAME ?> - <?php echo $_SESSION['username']; ?>",
   "DestinationType": "ImageUploader, FileUploader",
   "RequestMethod": "POST",
-  "RequestURL": "https://<?php echo BASE_DOMAIN ?>/api/upload",
+  "RequestURL": "https://<?php echo DOMAIN ?>/api/upload",
   "Parameters": {
     "secret": "<?php echo $secret ?>",
     "use_sharex": "true"
