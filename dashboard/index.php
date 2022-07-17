@@ -19,6 +19,156 @@ if (isset($_GET['logout'])) {
 
 $username = $_SESSION['username'];
 
+if (isset($_GET['update-settings'])) {
+     if (isset($_POST['use_customdomain'])) {
+          $sql3 = "UPDATE users SET use_customdomain='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+     if (!isset($_POST['use_customdomain'])) {
+          $sql3 = "UPDATE users SET use_customdomain='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+     if (isset($_POST['filename_type'])) {
+          $sql3 = "UPDATE users SET filename_type='long' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['filename_type'])) {
+          $sql3 = "UPDATE users SET filename_type='long' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['filename_type'])) {
+          $sql3 = "UPDATE users SET filename_type='short' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['filename_type'])) {
+          $sql3 = "UPDATE users SET filename_type='short' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+     if (isset($_POST['use_invisible_url'])) {
+          $sql3 = "UPDATE users SET use_invisible_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['use_invisible_url'])) {
+          $sql3 = "UPDATE users SET use_invisible_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_invisible_url'])) {
+          $sql3 = "UPDATE users SET use_invisible_url='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_invisible_url'])) {
+          $sql3 = "UPDATE users SET use_invisible_url='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+
+     if (isset($_POST['self_destruct_upload'])) {
+          $sql3 = "UPDATE users SET self_destruct_upload='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['self_destruct_upload'])) {
+          $sql3 = "UPDATE users SET self_destruct_upload='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['self_destruct_upload'])) {
+          $sql3 = "UPDATE users SET self_destruct_upload='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['self_destruct_upload'])) {
+          $sql3 = "UPDATE users SET self_destruct_upload='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+
+     if (isset($_POST['url_type'])) {
+          $sql3 = "UPDATE users SET url_type='long' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['url_type'])) {
+          $sql3 = "UPDATE users SET url_type='long' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['url_type'])) {
+          $sql3 = "UPDATE users SET url_type='short' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['url_type'])) {
+          $sql3 = "UPDATE users SET url_type='short' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+     if (isset($_POST['use_emoji_url'])) {
+          $sql3 = "UPDATE users SET use_emoji_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['use_emoji_url'])) {
+          $sql3 = "UPDATE users SET use_emoji_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_emoji_url'])) {
+          $sql3 = "UPDATE users SET use_emoji_url='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_emoji_url'])) {
+          $sql3 = "UPDATE users SET use_emoji_url='short' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+
+     header("location: /");
+}
+
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$embed = mysqli_fetch_assoc($result);
+if ($embed["use_customdomain"] == "true") {
+
+     $usecustomdomain = "checked";
+} else {
+
+     $usecustomdomain = "false";
+}
+
+if ($embed["use_invisible_url"] == "true") {
+
+     $invisible_url = "checked";
+} else {
+
+     $invisible_url = "false";
+}
+if ($embed["filename_type"] == "long") {
+
+     $uselongfilename = "checked";
+} else {
+
+     $uselongfilename = "false";
+}
+
+if ($embed["url_type"] == "long") {
+
+     $uselongurl = "checked";
+} else {
+
+     $uselongurl = "false";
+}
+if ($embed["self_destruct_upload"] == "true") {
+
+     $self_destruct_upload = "checked";
+} else {
+
+     $self_destruct_upload = "false";
+}
+
+if ($embed["use_emoji_url"] == "true") {
+
+     $emoji_url = "checked";
+} else {
+
+     $emoji_url = "false";
+}
+
 $sql = "SELECT * FROM users WHERE username='$username';";
 $result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
@@ -102,9 +252,10 @@ $secret = $row['secret'];
                </button>
                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto">
-                         <a class="nav-link col-md-4 link-white" href="profile">profile</a>
+                         <a class="nav-link col-md-4 link-white" href="settings">settings</a>
                          <a class="nav-link col-md-4 link-white" href="images">images</a>
-                         <a class="nav-link col-md-4 link-white" href="pastes">paste</a>
+                         <!-- TODO: Do pastes -->
+                         <!-- <a class="nav-link col-md-4 link-white" href="pastes">paste</a> -->
                          <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
                     </div>
                </div>
@@ -162,6 +313,53 @@ $secret = $row['secret'];
 
                     </form>
                </div>
+          </div>
+
+          <div class="card text-white bg-blur my-3">
+               <div class="card-header">Settings</div>
+               <div class="card-body">
+                    <form action="?update-settings" method="post" name="form" enctype="multipart/form-data">
+
+                         <!-- CUSTOM DOMAIN -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" <?php echo $usecustomdomain ?> name="use_customdomain">
+                              <label class="custom-control-label" for="customCheck1">Custom Domain</label>
+                         </div>
+
+                         <!-- INVISIBLE URL -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="use_invisible_url" <?php echo $invisible_url ?>>
+                              <label class="custom-control-label" for="customCheck2">Invisible URL</label>
+                         </div>
+
+                         <!-- EMOJI URL -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="use_emoji_url" <?php echo $emoji_url ?>>
+                              <label class="custom-control-label" for="customCheck3">Emoji URL</label>
+                         </div>
+
+                         <!-- LONG FILENAME -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="filename_type" <?php echo $uselongfilename ?>>
+                              <label class="custom-control-label" for="customCheck3">Long filename</label>
+                         </div>
+
+                         <!-- RAW URL -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="url_type" <?php echo $uselongurl ?>>
+                              <label class="custom-control-label" for="customCheck3">Raw URL</label>
+                         </div>
+
+                         <!-- SELF DESTRUCT UPLOAD -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="self_destruct_upload" <?php echo $self_destruct_upload ?>>
+                              <label class="custom-control-label" for="customCheck3">Self destruct upload</label>
+                         </div>
+
+                         <input type="submit" class="btn btn-lg btn-primary" name="button1" onclick="abfrage(this.form)" value="Save" />
+
+                    </form>
+               </div>
 
 
           </div>
@@ -206,7 +404,7 @@ $secret = $row['secret'];
                                    <input type="color" value="<?php echo $embed['embedcolor']; ?>" id="colorpicker" name="colorpicker" class="form-control" style="height: 3em" />
                               </div>
 
-                              <input type="submit" class="btn btn-lg btn-primary"" name="button1" onclick="abfrage(this.form)" value="Save" />
+                              <input type="submit" class="btn btn-lg btn-primary"" name=" button1" onclick="abfrage(this.form)" value="Save" />
                               <!-- <button class="btn btn-lg btn-primary" type="button" data-mdb-dismiss="modal">Save</button> -->
 
                               <!-- TODO: Add dropdown -->
@@ -214,9 +412,9 @@ $secret = $row['secret'];
                                    <a style="color: white;">%username</a><a style="color: grey;"> - Displays your Username</a><br>
                                    <a style="color: white;">%filename</a><a style="color: grey;"> - Displays the Name of the uploaded File</a><br>
                                    <a style="color: white;">%filesize</a><a style="color: grey;"> - Displays the Size of the uploaded File<< /a><br>
-                                   <a style="color: white;">%id</a><a style="color: grey;"> - Displays your User ID</a><br>
-                                   <a style="color: white;">%date</a><a style="color: grey;"> - Displays the time when the File was uploaded</a><br>
-                                   <a style="color: white;">%uploads</a><a style="color: grey;"> - Displays the amount of uploads you have</a>
+                                             <a style="color: white;">%id</a><a style="color: grey;"> - Displays your User ID</a><br>
+                                             <a style="color: white;">%date</a><a style="color: grey;"> - Displays the time when the File was uploaded</a><br>
+                                             <a style="color: white;">%uploads</a><a style="color: grey;"> - Displays the amount of uploads you have</a>
                               </div>
                          </div>
                     </form>
