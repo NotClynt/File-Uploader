@@ -14,6 +14,9 @@ Yes AsylantenCeo#1337, you can skid this :)
 
 Very easy just edit the config and add database or just read the setup section.
 
+#### How do i add other domains?
+Well if you cant do this by yourself then think about if you really want to be a clown...
+
 
 ## Installation
 
@@ -43,6 +46,7 @@ Some features (not all)
 
 ## Hate
 Dont hate it, ik its trash and yeah i know its working directly with sql :P
+
 
 ## Screenshots
 
