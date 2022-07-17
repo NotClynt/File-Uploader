@@ -6,7 +6,7 @@ html {
 }
 
 body {
-     background: linear-gradient(to bottom left, %firstcolor%, %secondcolor%) fixed;
+     background: linear-gradient(to bottom left, #1525d6, #1556d6) fixed;
      font-family: 'Lato', sans-serif;
 }
 

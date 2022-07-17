@@ -3,6 +3,12 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+CREATE TABLE `domains` (
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `dateAdded` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT current_timestamp(),
+  `id` int(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 CREATE TABLE `embeds` (
   `id` int(32) NOT NULL,
   `userid` varchar(32) NOT NULL,
@@ -47,6 +53,7 @@ CREATE TABLE `users` (
   `uuid` varchar(128) NOT NULL DEFAULT '00000000-0000-0000-0000-000000000000',
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `admin` int(1) NOT NULL DEFAULT 0,
   `banned` varchar(32) NOT NULL DEFAULT 'false',
   `invite` varchar(100) NOT NULL,
   `secret` varchar(128) NOT NULL,
@@ -65,6 +72,8 @@ CREATE TABLE `users` (
   `url_type` varchar(32) NOT NULL DEFAULT 'short',
   `uploads` int(32) NOT NULL DEFAULT 0,
   `upload_domain` varchar(256) NOT NULL DEFAULT '%domain%',
+  `subdomain` varchar(255) DEFAULT NULL,
+  `domain` varchar(255) NOT NULL DEFAULT '%domain%',
   `discord_username` varchar(128) NOT NULL DEFAULT 'user#0000',
   `discord_id` varchar(64) NOT NULL DEFAULT '000000000000000000',
   `inviter` varchar(64) NOT NULL DEFAULT 'System',
@@ -74,6 +83,7 @@ CREATE TABLE `users` (
   `upload_logo` varchar(512) NOT NULL,
   `upload_logo_toggle` varchar(32) NOT NULL DEFAULT 'false'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 CREATE TABLE `uploads` (
   `id` int(32) NOT NULL,
