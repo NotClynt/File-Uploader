@@ -227,7 +227,7 @@ $rows = mysqli_fetch_assoc($result);
 $subdomain = $rows['subdomain'];
 $selecteddomain = $rows['domain'];
 
-if(isset($_POST['update-domain'])){
+if (isset($_POST['update-domain'])) {
      $sql = "UPDATE users SET subdomain='" . $_POST['subdomain'] . "' WHERE username='" . $username . "';";
      $result = mysqli_query($db, $sql);
      $sql = "UPDATE users SET domain='" . $_POST['selecteddomain'] . "' WHERE username='" . $username . "';";
@@ -255,6 +255,7 @@ if(isset($_POST['update-domain'])){
      <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
      <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
      <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 </head>
 
@@ -268,7 +269,7 @@ if(isset($_POST['update-domain'])){
                </button>
                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto">
-                         <a class="nav-link col-md-4 link-white" href="settings">settings</a>
+                         <a class="nav-link col-md-4 link-white" onclick="showinvites()">invites</a>
                          <a class="nav-link col-md-4 link-white" href="images">images</a>
                          <!-- TODO: Do pastes -->
                          <!-- <a class="nav-link col-md-4 link-white" href="pastes">paste</a> -->
@@ -287,11 +288,11 @@ if(isset($_POST['update-domain'])){
                     <form class="text-center" method="POST">
 
                          <div class="form-outline form-white mb-2">
-                         <label class="label" >Subdomain</label>
+                              <label class="label">Subdomain</label>
                               <input type="text" name="subdomain" class="form-control" value="<?php echo $subdomain ?>" />
                          </div>
 
-                         <label class="label" >Domain</label>
+                         <label class="label">Domain</label>
                          <select name="selecteddomain" class="form-select text-white bg-blur mb-4" aria-label="Default select example">
                               <option class="bg-dark" value="<?php echo $selecteddomain ?>" selected><?php echo $selecteddomain ?></option>
                               <?php
@@ -484,6 +485,35 @@ if(isset($_POST['update-domain'])){
                } else {
 
                }
+          }
+     </script>
+     <script>
+          function showinvites() {
+               <?php
+               $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
+               $result = mysqli_query($db, $sql);
+               $row = mysqli_fetch_assoc($result);
+               $inviteCode = $row["inviteCode"];
+               if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+
+               ?>
+                         Swal.fire({
+                              title: '<span style="color: white">Invites<span>',
+                              background: 'blue',
+                              html: '<span style="color: white"> <?php
+                                                                 $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
+                                                                 $result = mysqli_query($db, $sql);
+                                                                 if ($result->num_rows > 0) {
+                                                                      while ($row = $result->fetch_assoc()) {
+                                                                           $inviteCode = $row["inviteCode"];
+                                                                           echo $inviteCode . "<br>";
+                                                                      }
+                                                                 }
+                                                                 ?> <span>'
+                         })
+               <?php }
+               } ?>
           }
      </script>
 </body>
