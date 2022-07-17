@@ -221,6 +221,22 @@ $result = mysqli_query($db, $sql);
 $row = mysqli_fetch_assoc($result);
 $secret = $row['secret'];
 
+$sql = "SELECT * FROM users WHERE username='$username';";
+$result = mysqli_query($db, $sql);
+$rows = mysqli_fetch_assoc($result);
+$subdomain = $rows['subdomain'];
+$selecteddomain = $rows['domain'];
+
+if(isset($_POST['update-domain'])){
+     $sql = "UPDATE users SET subdomain='" . $_POST['subdomain'] . "' WHERE username='" . $username . "';";
+     $result = mysqli_query($db, $sql);
+     $sql = "UPDATE users SET domain='" . $_POST['selecteddomain'] . "' WHERE username='" . $username . "';";
+     $result = mysqli_query($db, $sql);
+     $sql = "UPDATE users SET upload_domain='" . $_POST['subdomain'] . "." . $_POST['selecteddomain'] . "' WHERE username='" . $username . "';";
+     $result = mysqli_query($db, $sql);
+     header("location: /");
+}
+
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -268,15 +284,16 @@ $secret = $row['secret'];
           <div class="card text-white bg-blur my-3">
                <div class="card-header">Upload settings</div>
                <div class="card-body">
-                    <form class="text-center">
+                    <form class="text-center" method="POST">
 
                          <div class="form-outline form-white mb-2">
-                              <input type="text" id="subdomainText" class="form-control" />
-                              <label class="form-label" for="form1Text1">Subdomain</label>
+                         <label class="label" >Subdomain</label>
+                              <input type="text" name="subdomain" class="form-control" value="<?php echo $subdomain ?>" />
                          </div>
 
-                         <select id="selectionBox" class="form-select text-white bg-blur mb-4" aria-label="Default select example">
-                              <option class="bg-dark" selected>Choose a domain</option>
+                         <label class="label" >Domain</label>
+                         <select name="selecteddomain" class="form-select text-white bg-blur mb-4" aria-label="Default select example">
+                              <option class="bg-dark" value="<?php echo $selecteddomain ?>" selected><?php echo $selecteddomain ?></option>
                               <?php
                               $sql = "SELECT name FROM domains";
                               $result = mysqli_query($db, $sql);
@@ -286,7 +303,7 @@ $secret = $row['secret'];
                               ?>
                          </select>
 
-                         <button id="saveButton" type="button" class="btn btn-lg btn-primary" data-cf-modified-0031b96d8dcda876e9f76fb2-="">save</button>
+                         <button name="update-domain" type="submit" class="btn btn-lg btn-primary">save</button>
 
                     </form>
                </div>
