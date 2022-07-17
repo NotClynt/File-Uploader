@@ -41,10 +41,12 @@ Some features (not all)
 - Multi users support
 - Invite only
 
+## Hate
+Dont hate it, ik its trash and yeah i know its working directly with sql :P
 
 ## Screenshots
 
-![screen]()
+![screen](./assets/images/prw.png)
 
 
 ## API Reference
@@ -115,5 +117,5 @@ Please adhere to this project's `code of conduct`.
 - [@Clynt](https://github.com/clynt707)
 
 
-![Logo]()
+<!-- ![Logo]() -->
 
