@@ -1,0 +1,205 @@
+.hljs {
+     display: block;
+     overflow-x: auto;
+     padding: .5em;
+     background: #131313;
+     border-radius: 15px;
+     color: white;
+     text-align: left;
+     font-size: calc(1vw + 0.7vh);
+}
+
+/* Style buttons */
+.btn32143 {
+     background-color: #131313;
+     color: white;
+     padding: 12px 50px;
+     cursor: pointer;
+     font-size: 20px;
+     border-radius: 15px;
+}
+
+.g-recaptcha {
+     padding: 12px 30%;
+}
+
+/* Darker background on mouse-over */
+.btn32143:hover {
+     background-color: grey;
+}
+
+.card {
+     position: relative;
+     display: -ms-flexbox;
+     display: flex;
+     -ms-flex-direction: column;
+     flex-direction: column;
+     word-wrap: break-word;
+     background-color: #131313;
+     background-clip: border-box;
+     border: 1px solid rgba(0, 0, 0, .125);
+     border-radius: 15px;
+}
+
+
+.card img {
+     border-radius: 50%;
+     width: 60%;
+     height: auto;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 10%;
+}
+
+.card {
+     position: relative;
+     display: -ms-flexbox;
+     display: flex;
+     -ms-flex-direction: column;
+     flex-direction: column;
+     min-width: 0px;
+     width: auto;
+     height: auto;
+     word-wrap: break-word;
+     background-color: #131313;
+     background-clip: border-box;
+     border: 2px solid rgba(0, 0, 0, .125);
+     border-radius: 15px;
+     padding: 15px;
+     margin: 10px 10px 10px 10px;
+     box-shadow: 0 1px 10px rgb(0 0 0 / 30%), 0 15px 12px rgb(0 0 0 / 22%);
+}
+
+.wrap-login100 {
+     width: auto;
+     background: #1b1b1b;
+     border-radius: 20px;
+     overflow: hidden;
+     padding: 33px 33px 33px 33px;
+     box-shadow: 0 5px 10px 0px rgb(0 0 0 / 10%);
+     -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+     -webkit-box-shadow: 0 5px 10px 0px rgb(0 0 0 / 10%);
+     -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+     -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.swal2-popup {
+     display: none;
+     position: relative;
+     box-sizing: border-box;
+     flex-direction: column;
+     justify-content: center;
+     width: 45em;
+     max-width: 100%;
+     padding: 1.25em;
+     border: none;
+     border-radius: 15px;
+     background: #232323;
+     font-size: 1rem;
+     box-shadow: 0 1px 10px rgb(0 0 0 / 30%), 0 15px 12px rgb(0 0 0 / 22%);
+}
+
+.swal2-styled.swal2-confirm {
+     border: 0;
+     border-radius: 10px;
+     background: initial;
+     background-color: #191919;
+     color: #fff;
+     font-size: 1.0625em;
+     box-shadow: 0 1px 10px rgb(0 0 0 / 30%), 0 15px 12px rgb(0 0 0 / 22%);
+}
+
+.swal2-popup.swal2-toast {
+     flex-direction: row;
+     align-items: center;
+     width: auto;
+     padding: 0.625em;
+     overflow-y: hidden;
+     background: #19191a;
+     box-shadow: 0 0 0.625em black;
+}
+
+.card img {
+     border-radius: 50%;
+     width: 40%;
+     height: auto;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 10%;
+}
+
+.card img:hover {
+     border-radius: 50%;
+     width: 40%;
+     height: auto;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 10%;
+     transition: 0.3s;
+}
+
+.card img {
+     border-radius: 25%;
+     width: 40%;
+     height: auto;
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+     margin-top: 10%;
+     transition: 0.3s;
+}
+
+.row-card {
+     display: inline-block;
+     vertical-align: middle;
+}
+
+.wrap-login100 {
+     width: 700px;
+     background: #1b1b1b;
+     border-radius: 20px;
+     overflow: hidden;
+     padding: 5px;
+     box-shadow: 0 5px 10px 0px rgb(0 0 0 / 10%);
+     -moz-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+     -webkit-box-shadow: 0 5px 10px 0px rgb(0 0 0 / 10%);
+     -o-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+     -ms-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.p-b-26 {
+     padding-bottom: 0px;
+}
+
+.flex {
+     display: -webkit-box;
+     display: -moz-box;
+     display: -ms-flexbox;
+     display: -webkit-flex;
+     display: flex;
+}
+
+.flex-child-small {
+     -webkit-box-flex: 1 1 auto;
+     -moz-box-flex: 1 1 auto;
+     -webkit-flex: 1 1 auto;
+     -ms-flex: 1 1 auto;
+     flex: 1 1 auto;
+     margin: 10px;
+     font-size: 20px;
+     border-radius: 15px;
+     width: 100px;
+     height: auto;
+     font-size: 14px;
+     line-height: 1.7;
+     color: #666666;
+     text-align: center;
+}
+
+hr.rounded {
+     border-top: 2px solid #1b1b1b;
+     border-radius: 5px;
+}
