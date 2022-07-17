@@ -16,9 +16,38 @@ if (isset($_GET['logout'])) {
      unset_cookie('AUTH_COOKIE');
      header("location: ../");
 }
-
 $username = $_SESSION['username'];
 
+$sql = "SELECT * FROM users WHERE username = '$username'";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_assoc($result);
+$uuid = $row['uuid'];
+
+if (isset($_GET['delete'])) {
+     $delfilename = $_GET['delete'];
+     if (isset($_GET['secret'])) {
+          $query645 = "SELECT delete_secret FROM uploads WHERE filename='$delfilename'";
+          $result645 = mysqli_query($db, $query645);
+          if (mysqli_num_rows($result645) > 0) {
+               while ($row645 = mysqli_fetch_assoc($result645)) {
+                    $delete_secret = "" . $row645["delete_secret"] . "";
+               }
+          } else {
+               echo "0 results";
+          }
+          if ($delete_secret == $_GET['secret']) {
+               $sql = "DELETE FROM uploads WHERE filename='" . $_GET['delete'] . "';";
+               $result = mysqli_query($db, $sql);
+               unlink("../uploads/$uuid/$username/" . $_GET['delete']);
+               $sql = "UPDATE users SET uploads=$uploads WHERE username='" . $username . "';";
+               $result = mysqli_query($db, $sql);
+
+               header("location: https://". DOMAIN ."/dashboard/images");
+          } else {
+               die("Wrong Secret!");
+          }
+     }
+}
 
 ?>
 <!DOCTYPE HTML>
@@ -29,6 +58,7 @@ $username = $_SESSION['username'];
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
      <link rel="stylesheet" href="https://<?php echo CDN_URL ?>/assets/css/dash.css">
+     <link rel="stylesheet" href="https://<?php echo CDN_URL ?>/assets/css/gallery.css">
 
      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -51,9 +81,10 @@ $username = $_SESSION['username'];
                </button>
                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto">
-                         <a class="nav-link col-md-4 link-white" href="">profile</a>
-                         <a class="nav-link col-md-4 link-white" href="">images</a>
-                         <a class="nav-link col-md-4 link-white" href="">paste</a>
+                         <a class="nav-link col-md-4 link-white" href="../">home</a>
+                         <a class="nav-link col-md-4 link-white" href="profile">profile</a>
+                         <a class="nav-link col-md-4 link-white" href="#">images</a>
+                         <a class="nav-link col-md-4 link-white" href="pastes">paste</a>
                          <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
                     </div>
                </div>
@@ -77,20 +108,23 @@ $username = $_SESSION['username'];
 
                ?>
                <?php
+               // select * from uploads where username = $username
+               $sql = "SELECT * FROM uploads WHERE username = '$username'";
+               $result = mysqli_query($db, $sql);
                while ($row = mysqli_fetch_array($result)) {
                ?>
-                    <div style="text-align: center;" class='card' <div class='card-body'>
-                         <h5 class='card-title' href='<?php echo "https://" . DOMAIN . "/" . $row['filename'] . "'>" . $row['filename'] . " (<a href='?delete=" . $row['filename'] . "&secret=" . $row['delete_secret'] ?>'><svg class="bi" width="1em" height="1em" fill="currentColor">
-                              </svg></a>)</h5>
-                         <p style="color: grey;" class='card-text'>Original Filename:<br><a style='color: white;'><?php echo $row['original_filename'] ?></a></p>
-                         <p style="color: grey;" class='card-text'>Size: <a style='color: white;'><?php echo $row['filesize'] ?></a></p>
-                         <p style="color: grey;" class='card-text'>Uploaded at:<br><a style='color: white;'><?php echo $row['uploaded_at']; ?></a></p>
-                         <p style="color: grey;" class='card-text'>Url:<br><a href="<?php echo 'https://' . DOMAIN . '/' . $row['filename'] ?>" style="color: white;"><?php echo 'https://' . DOMAIN . '/<br>' . $row['filename'] ?></a></p>
-                         <br>
-                         <a class="btn btn-lg btn-dark" href='<?php echo "https://" . DOMAIN . "/uploads/$uuid/$username/" . $row['filename'] ?>' download type='button'>Download</a>
-                         <a class="btn btn-lg btn-dark" href='<?php echo "?delete=" . $row['filename'] . "&secret=" . $row['delete_secret'] ?>' type='button'>Delete</a>
+
+                    <div style="text-align: center;" class='card'>
+                         <div class='card-body'">
+                              <h5 class='card-title'></h5>
+                              <img src=" <?php echo "https://" . DOMAIN . "/uploads/$uuid/$username/" . $row['filename'] ?>" alt="<?php echo $row['filename'] ?>" class='card-img-top'>
+                              <p style="color: #000000;" class='card-text'>Url:<br><a href="<?php echo 'https://' . DOMAIN . '/' . $row['filename'] ?>" style="color: #000000;"><?php echo 'https://' . DOMAIN . '/<br>' . $row['filename'] ?></a></p>
+                              <br>
+                              <a class="btn btn-lg btn-dark" href='<?php echo "https://" . DOMAIN . "/uploads/$uuid/$username/" . $row['filename'] ?>' download type='button'>Download</a>
+                              <a class="btn btn-lg btn-dark" href='<?php echo "?delete=" . $row['filename'] . "&secret=" . $row['delete_secret'] ?>' type='button'>Delete</a>
+                         </div>
                     </div>
-                    </p>
+
                <?php
                }
                ?>

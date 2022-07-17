@@ -102,9 +102,9 @@ $secret = $row['secret'];
                </button>
                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto">
-                         <a class="nav-link col-md-4 link-white" href="">profile</a>
-                         <a class="nav-link col-md-4 link-white" href="">images</a>
-                         <a class="nav-link col-md-4 link-white" href="">paste</a>
+                         <a class="nav-link col-md-4 link-white" href="profile">profile</a>
+                         <a class="nav-link col-md-4 link-white" href="images">images</a>
+                         <a class="nav-link col-md-4 link-white" href="pastes">paste</a>
                          <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
                     </div>
                </div>
