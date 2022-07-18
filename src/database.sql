@@ -5,7 +5,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `domains` (
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `dateAdded` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT current_timestamp(),
+  `dateAdded` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
   `id` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
