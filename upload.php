@@ -126,7 +126,7 @@ if ($maintenance == "true") {
                         copy($source, $destination);
                         $destination = 'uploads/' . $uuid . '/' . $username . '/index.html';
                         copy($source, $destination);
-                        date_default_timezone_set('Europe/Amsterdam');
+                        date_default_timezone_set('Europe/Berlin');
                         $date = date("F d, Y h:i:s A");
                         $sql = "UPDATE `users` SET `last_uploaded`='$date' WHERE `username`='$username'";
                         $result = mysqli_query($db, $sql);
