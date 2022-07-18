@@ -44,6 +44,8 @@ Some features (not all)
 - Multi users support
 - Invite only
 
+For more festures check projects
+
 ## Hate
 Dont hate it, ik its trash and yeah i know its working directly with sql :P
 
