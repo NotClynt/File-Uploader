@@ -37,6 +37,7 @@ $use_embed = $user['use_embed'];
 $use_customdomain = $user['use_customdomain'];
 $invisible_url = $user['use_invisible_url'];
 $emoji_url = $user['use_emoji_url'];
+$sus_url = $user['use_sus_url'];
 $uuid = $user['uuid'];
 $uploadToDomain = $user['upload_domain'];
 $uploads = intval($user['uploads']) + 1;
@@ -136,6 +137,7 @@ if ($maintenance == "true") {
                         $destination = 'uploads/' . $uuid . '/' . $username . "/" . $hash;
                         if ($use_embed == "true") {
                             $hash_filename_emoji = generateRandomEmoji($hash_filename);
+                            $hash_filename_sus = generateRandomSus($hash_filename);
                             $hash_filename = generateInvisible($hash_filename);
                             $fileurl = $protocol . DOMAIN . DIRECTORY . "uploads/$hash";
                             $files = scandir('uploads/');
@@ -277,6 +279,9 @@ if ($maintenance == "true") {
                                     } else if ($emoji_url == "true") {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_emoji;
                                         $hash_filename_db = urlencode($hash_filename_emoji);
+                                    } else if ($sus_url == "true") {
+                                        echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_sus;
+                                        $hash_filename_db = urlencode($hash_filename_sus);
                                     } else {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" . $hash;
                                     }
@@ -287,8 +292,11 @@ if ($maintenance == "true") {
                                     } else if ($emoji_url == "true") {
                                         echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_emoji;
                                         $hash_filename_db = urlencode($hash_filename_emoji);
+                                    } else if ($sus_url == "true") {
+                                        echo "https://$uploadToDomain" . DIRECTORY . "/" .  $hash_filename_sus;
+                                        $hash_filename_db = urlencode($hash_filename_sus);
                                     } else {
-                                        echo "https://" . DOMAIN . "/uploads/$uuid/$username/$hash";
+                                        echo "https://$uploadToDomain" . DIRECTORY . "/" . $hash;
                                     }
                                 }
                             } else {
@@ -299,6 +307,9 @@ if ($maintenance == "true") {
                                     } else if ($invisible_url == "true") {
                                         echo "https://" . DOMAIN . DIRECTORY . "/" . $hash_filename;
                                         $hash_filename_db = urlencode($hash_filename);
+                                    } else  if ($sus_url == "true") {
+                                        echo "https://" . DOMAIN . DIRECTORY . "/" . $hash_filename_sus;
+                                        $hash_filename_db = urlencode($hash_filename_sus);
                                     } else {
                                         echo "https://" . DOMAIN . DIRECTORY . "/" . $hash;
                                     }
@@ -309,6 +320,8 @@ if ($maintenance == "true") {
                             $query54 = "INSERT INTO `uploads` (`id`, `userid`, `username`, `filename`, `hash_filename`, `original_filename`, `filesize`, `delete_secret`, `self_destruct_upload`, `embed_color`, `embed_author`, `embed_title`, `embed_desc`, `role`, `uploaded_at`, `ip`) VALUES (NULL,'" . $userid . "', '" . $username . "', '" . $hash . "', '$hash_filename_db', '" . $original_filename . "', '" . $filesize . "', '" . $delete_secret . "', '" . $self_destruct_upload . "', '" . $emcolor . "', '" . $emauthor . "', '" . $emtitle . "', '" . $emdesc . "', '" . $user['role'] . "', '" . $date . "', '" . $ip . "');";
                             $result54 = mysqli_query($db, $query54);
                             $filesize = human_filesize(filesize('uploads/' . $uuid . '/' . $username . "/" . $hash), 2);
+
+
                         } else {
                             $hash_filename_emoji = generateRandomEmoji($hash_filename);
                             $hash_filename = generateInvisible($hash_filename);

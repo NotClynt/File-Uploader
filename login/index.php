@@ -23,10 +23,12 @@ if (isset($_POST['login'])) {
     if ($user) {
         if ($user['username'] == $username) {
             if (password_verify($password, $user['password'])) {
+
                 session_start();
+                $_SESSION["loggedin"] = true;
                 $_SESSION['username'] = $username;
                 $_SESSION['uploads'] = $user['uploads'];
-                $_SESSION['success'] = "<div class='card' <div class='card-body'> <br> <h3 class='card-text' style='color: green;'>You are Logged in!</h3> <br> </div> </div> <br>";
+
                 header("Location: ../index.php");
             } else {
                 $errors = "Password is incorrect";

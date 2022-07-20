@@ -5,16 +5,10 @@ include "../src/database.php";
 include "../src/functions.php";
 
 session_start();
-if (!isset($_SESSION['username'])) {
-     $_SESSION['msg'] = "You must log in first";
-     header('location: ../');
-}
 
-if (isset($_GET['logout'])) {
-     session_destroy();
-     unset($_SESSION['username']);
-     unset_cookie('AUTH_COOKIE');
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
      header("location: ../");
+     exit;
 }
 
 $username = $_SESSION['username'];
@@ -82,6 +76,22 @@ if (isset($_GET['update-settings'])) {
           $result3 = mysqli_query($db, $sql3);
      }
 
+     if (isset($_POST['use_sus_url'])) {
+          $sql3 = "UPDATE users SET use_sus_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (isset($_POST['use_sus_url'])) {
+          $sql3 = "UPDATE users SET use_sus_url='true' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_sus_url'])) {
+          $sql3 = "UPDATE users SET use_sus_url='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
+     if (!isset($_POST['use_sus_url'])) {
+          $sql3 = "UPDATE users SET use_sus_url='false' WHERE username='" . $username . "';";
+          $result3 = mysqli_query($db, $sql3);
+     }
 
      if (isset($_POST['url_type'])) {
           $sql3 = "UPDATE users SET url_type='long' WHERE username='" . $username . "';";
@@ -167,6 +177,14 @@ if ($embed["use_emoji_url"] == "true") {
 } else {
 
      $emoji_url = "false";
+}
+
+if ($embed["use_sus_url"] == "true") {
+
+     $use_sus_url = "checked";
+} else {
+
+     $use_sus_url = "false";
 }
 
 $sql = "SELECT * FROM users WHERE username='$username';";
@@ -273,7 +291,7 @@ if (isset($_POST['update-domain'])) {
                          <a class="nav-link col-md-4 link-white" href="images">images</a>
                          <!-- TODO: Do pastes -->
                          <!-- <a class="nav-link col-md-4 link-white" href="pastes">paste</a> -->
-                         <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
+                         <a class="nav-link col-md-4 link-white" href="logout">logout</a>
                     </div>
                </div>
           </div>
@@ -354,6 +372,12 @@ if (isset($_POST['update-domain'])) {
                          <div class="custom-control custom-checkbox">
                               <input type="checkbox" class="custom-control-input" name="use_emoji_url" <?php echo $emoji_url ?>>
                               <label class="custom-control-label" for="customCheck3">Emoji URL</label>
+                         </div>
+
+                         <!-- AMONGUS URL -->
+                         <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="use_sus_url" <?php echo $use_sus_url ?>>
+                              <label class="custom-control-label" for="customCheck3">AmongUs URL</label>
                          </div>
 
                          <!-- LONG FILENAME -->
@@ -462,7 +486,7 @@ if (isset($_POST['update-domain'])) {
   "Name": "<?php echo SERVICE_NAME ?> - <?php echo $_SESSION['username']; ?>",
   "DestinationType": "ImageUploader, FileUploader",
   "RequestMethod": "POST",
-  "RequestURL": "https://<?php echo DOMAIN ?>/api/upload",
+  "RequestURL": "https://c-cloud.rocks/api/upload",
   "Parameters": {
     "secret": "<?php echo $secret ?>",
     "use_sharex": "true"
@@ -487,30 +511,24 @@ if (isset($_POST['update-domain'])) {
                }
           }
      </script>
+
+
+
      <script>
           function showinvites() {
                <?php
                $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
                $result = mysqli_query($db, $sql);
-               $row = mysqli_fetch_assoc($result);
                $inviteCode = $row["inviteCode"];
                if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                         $inviteCode = $row["inviteCode"];
 
                ?>
                          Swal.fire({
                               title: '<span style="color: white">Invites<span>',
                               background: 'blue',
-                              html: '<span style="color: white"> <?php
-                                                                 $sql = "SELECT * FROM invites WHERE inviteAuthor = '$username'";
-                                                                 $result = mysqli_query($db, $sql);
-                                                                 if ($result->num_rows > 0) {
-                                                                      while ($row = $result->fetch_assoc()) {
-                                                                           $inviteCode = $row["inviteCode"];
-                                                                           echo $inviteCode . "<br>";
-                                                                      }
-                                                                 }
-                                                                 ?> <span>'
+                              html: '<span style="color: white"> <?php echo $inviteCode . "<br>"; ?> <span>',
                          })
                <?php }
                } ?>

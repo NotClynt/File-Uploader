@@ -34,16 +34,16 @@ if (isset($_GET["invite"])) {
           $_SESSION["inviteCode"] = $invitecode;
           $giftAuthor = $row["inviteAuthor"];
           echo "<head>
-      <meta name='theme-color' content='" . EMBED_COLOR . "'>
-      <meta name='og:site_name' content='https://" . BASE_DOMAIN . "/'>
-      <meta property='og:title' content='" . SERVICE_NAME . " | Invite Code' />
-      <meta property=og:url content='https://" . BASE_DOMAIN . "/invite/$invitecode' />
+      <meta name='theme-color' content='#030bfc'>
+      <meta name='og:site_name' content='https://c-cloud.rocks/'>
+      <meta property='og:title' content='C-Cloud | Invite Code' />
+      <meta property=og:url content='https://c-cloud.rocks/invite/$invitecode' />
       <meta property='og:type' content='website' />
-      <meta property='og:description' content='$giftAuthor invited you to " . SERVICE_NAME . "!'/>
+      <meta property='og:description' content='$giftAuthor invited you to C-Cloud!'/>
       <meta property='og:locale' content='en_GB'/>
-      <meta content='https://" . CDN_URL . "/images/invite.png' property='og:image'>
+      <meta content='https://c-cloud.rocks/images/invite.png' property='og:image'>
       </head>";
-          header("Location: https://" . BASE_DOMAIN . "/");
+          header("Location: https://c-cloud.rocks/register/");
      } else {
           die("This invite does not exist!");
      }

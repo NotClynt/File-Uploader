@@ -75,7 +75,7 @@ if (isset($_POST['reg'])) {
             $delquery = "DELETE FROM `invites` WHERE `inviteCode` = '$key';";
             mysqli_query($db, $delquery);
             $ranPass = generateRandomInt(16);
-            date_default_timezone_set('Europe/Amsterdam');
+            date_default_timezone_set('Europe/Berlin');
             $date = date("F d, Y h:i:s A");
             if (count($errors) == 0) {
                 if (!file_exists('../uploads/' . $uuid)) {
@@ -84,10 +84,6 @@ if (isset($_POST['reg'])) {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 $query = "INSERT INTO users (id, uuid, username, password, banned, invite, secret, embedcolor, embedauthor, embedtitle, embeddesc, reg_date, use_embed, use_customdomain, self_destruct_upload, filename_type, url_type, uploads, upload_domain, discord_username, discord_id, inviter, last_uploaded, upload_limit, upload_size_limit, upload_logo, upload_logo_toggle) VALUES (NULL, '$uuid', '$username', '$hashed_password', 'false', '$invite', '$ranPass', '%embed_color%', '%service_name%', '%filename (%filesize)', 'Uploaded by %username at %date', '$date', 'true', 'false', 'false', 'false', 'short', 'short', 0, '%domain%', 'user#0000', '$inviter', '$date', '500 MB', '32 MB', 'https://%domain%/assets/images/icon.png', 'false');";
                 mysqli_query($db, $query);
-                $_SESSION['username'] = $username;
-                $_SESSION['key'] = $key;
-                $ip = $_SERVER['REMOTE_ADDR'];
-                $_SESSION['success'] = "You are now logged in";
                 header('location: ../login/');
             }
         } else {
@@ -96,8 +92,28 @@ if (isset($_POST['reg'])) {
     }
 }
 
-
-
+if (isset($_GET["invite"])) {
+    $invitecode = $_GET["invite"];
+    $invite = "SELECT * FROM `invites` WHERE `inviteCode`='$invitecode'";
+    $result = mysqli_query($db, $invite);
+    $row = mysqli_fetch_assoc($result);
+    if (mysqli_num_rows($result) > 0) {
+         $_SESSION["inviteCode"] = $invitecode;
+         $giftAuthor = $row["inviteAuthor"];
+         echo "<head>
+     <meta name='theme-color' content='#030bfc'>
+     <meta name='og:site_name' content='https://c-cloud.rocks/'>
+     <meta property='og:title' content='C-Cloud | Invite Code' />
+     <meta property=og:url content='https://c-cloud.rocks/invite/$invitecode' />
+     <meta property='og:type' content='website' />
+     <meta property='og:description' content='$giftAuthor invited you to C-Cloud!'/>
+     <meta property='og:locale' content='en_GB'/>
+     <meta content='https://c-cloud.rocks/images/invite.png' property='og:image'>
+     </head>";
+    } else {
+         die("This invite does not exist!");
+    }
+}
 
 ?>
 <html>
@@ -136,7 +152,7 @@ if (isset($_POST['reg'])) {
         <input type="text" name="username" placeholder="Username" autocomplete="username" required>
         <input type="password" name="password" placeholder="Password" autocomplete="password" required>
         <input type="password" name="c_password" placeholder="Confirm Password" autocomplete="password" required>
-        <input type="text" name="key" placeholder="Invite" required>
+        <input type="text" name="key" placeholder="Invite" value="<?php echo $_SESSION["inviteCode"]; ?>" required>
 
         <button class="submit" type="submit" name="reg">register</button>
         <div class="error">

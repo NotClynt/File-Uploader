@@ -5,17 +5,13 @@ include "../src/database.php";
 include "../src/functions.php";
 
 session_start();
-if (!isset($_SESSION['username'])) {
-     $_SESSION['msg'] = "You must log in first";
-     header('location: ../');
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+     header("location: ../");
+     exit;
 }
 
-if (isset($_GET['logout'])) {
-     session_destroy();
-     unset($_SESSION['username']);
-     unset_cookie('AUTH_COOKIE');
-     header("location: ../");
-}
+
 $username = $_SESSION['username'];
 
 $sql = "SELECT * FROM users WHERE username = '$username'";
@@ -85,7 +81,7 @@ if (isset($_GET['delete'])) {
                          <a class="nav-link col-md-4 link-white" href="#">images</a>
                          <!-- TODO: Do pastes -->
                          <!-- <a class="nav-link col-md-4 link-white" href="pastes">paste</a> -->
-                         <a class="nav-link col-md-4 link-white" href="?logout=%271%27">logout</a>
+                         <a class="nav-link col-md-4 link-white" href="logout">logout</a>
                     </div>
                </div>
           </div>

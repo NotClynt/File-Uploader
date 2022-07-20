@@ -27,6 +27,21 @@ function generateRandomEmoji(): string
      return $string;
 }
 
+function generateRandomSus(): string
+{
+     $string = '';
+     $unicodes = ['ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', 'ඞ', '\u2060', '\u180E', '\u200D', '\u200C'];
+
+     for ($i = 0; $i <= 12; $i++) {
+          $random_keys = array_rand($unicodes);
+          $thing = json_decode('"' . $unicodes[$random_keys] . '"');
+          $string .= $thing;
+     }
+
+     return $string;
+}
+
+
 function generateRandomInt($length)
 {
      $characters = '0123456789';
