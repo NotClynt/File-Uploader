@@ -20,6 +20,9 @@ Well if you cant do this by yourself then think about if you really want to be a
 
 ## Installation
 
+### Important!
+Do not remove the .htaccess file!
+
 Setup the image hoster easy
 
 ```bash
